@@ -7,6 +7,7 @@
         <link type="text/css" rel="stylesheet" href="inc/style.css" />
     </head>
     <body>
+    	<c:import url="menu.jsp" />
         <div>
             <form method="get" action="creationClient">
                 <fieldset>
