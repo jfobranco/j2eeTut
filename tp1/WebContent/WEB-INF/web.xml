@@ -8,21 +8,21 @@
     </jsp-property-group>
   </jsp-config>
   <servlet>
-    <servlet-name>ClientControl</servlet-name>
-    <servlet-class>com.jb.servlets.ClientControl</servlet-class>
+    <servlet-name>CreationClient</servlet-name>
+    <servlet-class>com.jb.servlets.CreationClient</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>ClientControl</servlet-name>
+    <servlet-name>CreationClient</servlet-name>
     <url-pattern>/creationClient</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>OrderControl</servlet-name>
-    <servlet-class>com.jb.servlets.OrderControl</servlet-class>
+    <servlet-name>CreationCommande</servlet-name>
+    <servlet-class>com.jb.servlets.CreationCommande</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>OrderControl</servlet-name>
+    <servlet-name>CreationCommande</servlet-name>
     <url-pattern>/creationCommande</url-pattern>
   </servlet-mapping>
 </web-app>
