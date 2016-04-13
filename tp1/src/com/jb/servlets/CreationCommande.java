@@ -30,9 +30,15 @@ public class CreationCommande extends HttpServlet {
 	public static final String PARAM_DELIVERYMODE = "modeLivraisonCommande";
 	public static final String PARAM_DELIVERYSTATUS = "statutLivraisonCommande";
 
-	public static final String VIEW = "/afficherCommande.jsp";
+	public static final String VIEW = "/WEB-INF/creationCommande.jsp";
+	public static final String VIEW2 = "/WEB-INF/afficherCommande.jsp";
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		/* Affichage de la page d'inscription */
+		this.getServletContext().getRequestDispatcher(VIEW).forward(request, response);
+	}
+
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		/* Création et initialisation du message. */
 		String firstName = request.getParameter(PARAM_FIRSTNAME);
 		String lastName = request.getParameter(PARAM_NAME);
@@ -92,6 +98,6 @@ public class CreationCommande extends HttpServlet {
 		request.setAttribute(ATT_ERROR, error);
 
 		/* Transmission de la paire d'objets request/response à notre JSP */
-		this.getServletContext().getRequestDispatcher(VIEW).forward(request, response);
+		this.getServletContext().getRequestDispatcher(VIEW2).forward(request, response);
 	}
 }
