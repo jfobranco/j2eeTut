@@ -73,11 +73,10 @@ public class CreationClientForm {
 			erreurs.put(PARAM_MAIL, "Merci de saisir une adresse mail valide.");
 		customer.setMail(mail);
 
-		if (erreurs.isEmpty()) {
-			resultat = "Succès de l'inscription.";
-		} else {
-			resultat = "Échec de l'inscription.";
-		}
+		if (erreurs.isEmpty())
+			resultat = "Succès de la création du client.";
+		else
+			resultat = "Échec de la création du client.";
 
 		return customer;
 	}

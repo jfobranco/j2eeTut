@@ -10,7 +10,11 @@
     	<c:import url="/inc/menu.jsp" />
         <div>
             <form method="post" action="<c:url value="/creationClient"/>">
-                <c:import url="/inc/clientInput.jsp" />
+            	<fieldset>
+                	<c:import url="/inc/clientInput.jsp" />
+					<p class="${empty form.erreurs ? 'succes' : 'erreur'}">${form.resultat}</p>
+				</fieldset>
+
                 <input type="submit" value="Valider"  />
                 <input type="reset" value="Remettre à zéro" /> <br />
             </form>

@@ -24,15 +24,15 @@ public class CreationCommande extends HttpServlet {
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		/* Création et initialisation du message. */
 		CreationCommandeForm form = new CreationCommandeForm();
 
 		Order order = form.createOrder(request);
-		/* Stockage du message et du bean dans l'objet request */
+
 		request.setAttribute(ATT_ORDER, order);
 		request.setAttribute(ATT_FORM, form);
 
 		/* Transmission de la paire d'objets request/response à notre JSP */
-		this.getServletContext().getRequestDispatcher(VIEW2).forward(request, response);
+		this.getServletContext().getRequestDispatcher(form.getErreurs().isEmpty() ? VIEW2 : VIEW).forward(request,
+				response);
 	}
 }
