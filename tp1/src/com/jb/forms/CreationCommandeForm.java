@@ -36,55 +36,10 @@ public class CreationCommandeForm {
 
 	public Order createOrder(HttpServletRequest request) {
 
-		String firstName = getValeurChamp(request, PARAM_FIRSTNAME);
-		String lastName = getValeurChamp(request, PARAM_NAME);
-		String address = getValeurChamp(request, PARAM_ADDRESS);
-		String phone = getValeurChamp(request, PARAM_PHONE);
-		String mail = getValeurChamp(request, PARAM_MAIL);
+		CreationClientForm clientForm = new CreationClientForm();
+		Customer customer = clientForm.createCustomer(request);
 
-		/* Création du bean */
-		Customer customer = new Customer();
-		Order order = new Order();
-		String message = null;
-		boolean error = false;
-
-		/* Initialisation de ses propriétés */
-		if (lastName == null)
-			erreurs.put(PARAM_NAME, "Merci de saisir un nom.");
-		else if (lastName.length() < 2)
-			erreurs.put(PARAM_NAME, "Le nom doit contenir au moins 3 caractères.");
-		customer.setLastName(lastName);
-
-		if (firstName != null && firstName.length() < 2)
-			erreurs.put(PARAM_FIRSTNAME, "Le nom doit contenir au moins 3 caractères.");
-		customer.setFirstName(firstName);
-
-		if (address == null)
-			erreurs.put(PARAM_ADDRESS, "Merci de saisir une addresse.");
-		else if (address.length() < 10)
-			erreurs.put(PARAM_ADDRESS, "L'addresse doit contenir au moins 10 caractères.");
-		customer.setAddress(address);
-
-		if (phone == null)
-			erreurs.put(PARAM_PHONE, "Merci de saisir un téléphone.");
-		else {
-			if (phone.length() < 4)
-				erreurs.put(PARAM_PHONE, "Le telephone doit contenir au moins 4 chiffres.");
-			try {
-				int phoneInt = Integer.valueOf(phone);
-				if (phoneInt < 0)
-					erreurs.put(PARAM_PHONE, "Le telephone doit être un chiffre positif.");
-			} catch (NumberFormatException e) {
-				erreurs.put(PARAM_PHONE, "Le telephone doit être un chiffre.");
-			}
-		}
-		customer.setPhone(phone);
-
-		if (mail != null && !mail.matches("([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)"))
-			erreurs.put(PARAM_MAIL, "Merci de saisir une adresse mail valide.");
-		customer.setMail(mail);
-
-		order.setCustomer(customer);
+		erreurs = clientForm.getErreurs();
 
 		// String date = request.getParameter( "dateCommande" );
 		String amount = getValeurChamp(request, PARAM_AMOUNT);
@@ -93,7 +48,10 @@ public class CreationCommandeForm {
 		String deliveryMode = getValeurChamp(request, PARAM_DELIVERYMODE);
 		String deliveryStatus = getValeurChamp(request, PARAM_DELIVERYSTATUS);
 
+		Order order = new Order();
+		order.setCustomer(customer);
 		order.setDate(new Date());
+
 		Double amountDouble = null;
 		if (amount == null)
 			erreurs.put(PARAM_AMOUNT, "Merci de saisir un montant.");

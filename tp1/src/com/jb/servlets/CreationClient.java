@@ -24,16 +24,10 @@ public class CreationClient extends HttpServlet {
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		/* Préparation de l'objet formulaire */
 		CreationClientForm form = new CreationClientForm();
 
-		/*
-		 * Appel au traitement et à la validation de la requête, et récupération
-		 * du bean en résultant
-		 */
 		Customer customer = form.createCustomer(request);
 
-		/* Stockage du formulaire et du bean dans l'objet request */
 		request.setAttribute(ATT_FORM, form);
 		request.setAttribute(ATT_CUSTOMER, customer);
 

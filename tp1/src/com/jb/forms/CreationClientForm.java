@@ -34,8 +34,6 @@ public class CreationClientForm {
 
 		/* Création du bean */
 		Customer customer = new Customer();
-		String message = null;
-		boolean error = false;
 
 		/* Initialisation de ses propriétés */
 		if (lastName == null)
