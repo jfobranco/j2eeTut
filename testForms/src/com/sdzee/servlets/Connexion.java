@@ -27,6 +27,8 @@ public class Connexion extends HttpServlet {
 	public static final String COOKIE_DERNIERE_CONNEXION = "derniereConnexion";
 	public static final String FORMAT_DATE = "dd/MM/yyyy HH:mm:ss";
 	public static final String VUE = "/WEB-INF/connexion.jsp";
+	public static final String CHAMP_MEMOIRE = "memoire";
+	public static final int COOKIE_MAX_AGE = 60 * 60 * 24 * 365; // 1 an
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		/* Tentative de récupération du cookie depuis la requête */
@@ -56,14 +58,12 @@ public class Connexion extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		/* Préparation de l'objet formulaire */
 		ConnexionForm form = new ConnexionForm();
-
 		/* Traitement de la requête et récupération du bean en résultant */
 		Utilisateur utilisateur = form.connecterUtilisateur(request);
-
 		/* Récupération de la session depuis la requête */
 		HttpSession session = request.getSession();
 
-		/**
+		/*
 		 * Si aucune erreur de validation n'a eu lieu, alors ajout du bean
 		 * Utilisateur à la session, sinon suppression du bean de la session.
 		 */
@@ -71,6 +71,20 @@ public class Connexion extends HttpServlet {
 			session.setAttribute(ATT_SESSION_USER, utilisateur);
 		} else {
 			session.setAttribute(ATT_SESSION_USER, null);
+		}
+
+		/* Si et seulement si la case du formulaire est cochée */
+		if (request.getParameter(CHAMP_MEMOIRE) != null) {
+			/* Récupération de la date courante */
+			DateTime dt = new DateTime();
+			/* Formatage de la date et conversion en texte */
+			DateTimeFormatter formatter = DateTimeFormat.forPattern(FORMAT_DATE);
+			String dateDerniereConnexion = dt.toString(formatter);
+			/* Création du cookie, et ajout à la réponse HTTP */
+			setCookie(response, COOKIE_DERNIERE_CONNEXION, dateDerniereConnexion, COOKIE_MAX_AGE);
+		} else {
+			/* Demande de suppression du cookie du navigateur */
+			setCookie(response, COOKIE_DERNIERE_CONNEXION, "", 0);
 		}
 
 		/* Stockage du formulaire et du bean dans l'objet request */
@@ -94,5 +108,15 @@ public class Connexion extends HttpServlet {
 			}
 		}
 		return null;
+	}
+
+	/*
+	 * Méthode utilitaire gérant la création d'un cookie et son ajout à la
+	 * réponse HTTP.
+	 */
+	private static void setCookie(HttpServletResponse response, String nom, String valeur, int maxAge) {
+		Cookie cookie = new Cookie(nom, valeur);
+		cookie.setMaxAge(maxAge);
+		response.addCookie(cookie);
 	}
 }
