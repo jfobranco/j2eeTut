@@ -4,7 +4,7 @@
     <head>
         <meta charset="utf-8" />
         <title>Inscription</title>
-        <link type="text/css" rel="stylesheet" href="form.css" />
+        <link type="text/css" rel="stylesheet" href="inc/form.css" />
     </head>
     <body>
         <form method="post" action="inscription">

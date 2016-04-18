@@ -29,7 +29,6 @@
 		<url-pattern>/inscription</url-pattern>
 	</servlet-mapping>
 
-
 	<servlet-mapping>
 	    <servlet-name>Connexion</servlet-name>
 	    <url-pattern>/connexion</url-pattern>
@@ -39,6 +38,45 @@
 		<servlet-name>Deconnexion</servlet-name>
 		<url-pattern>/deconnexion</url-pattern>
 	</servlet-mapping>
+
+	<filter>
+	    <filter-name>RestrictionFilter</filter-name>
+	    <filter-class>com.sdzee.filters.RestrictionFilter</filter-class>
+	</filter>
+	<filter-mapping>
+	    <filter-name>RestrictionFilter</filter-name>
+	    <url-pattern>/restreint/*</url-pattern>
+	    <dispatcher>REQUEST</dispatcher>    
+   		<dispatcher>FORWARD</dispatcher> 
+	</filter-mapping>
+
+	<!--	Filter entire app, in case it would only be accessed by logged in users
+	<filter>
+        <filter-name>RestrictionFilter</filter-name>
+        <filter-class>com.sdzee.filters.RestrictionFilter</filter-class>
+	</filter>
+	<filter-mapping>
+	        <filter-name>RestrictionFilter</filter-name>
+	        <url-pattern>/*</url-pattern>
+	</filter-mapping>
+	-->
+
+	<filter>
+	    <filter-name>Set Character Encoding</filter-name>
+	    <filter-class>org.apache.catalina.filters.SetCharacterEncodingFilter</filter-class>
+	    <init-param>
+	        <param-name>encoding</param-name>
+	        <param-value>UTF-8</param-value>
+	    </init-param>
+	    <init-param>
+	        <param-name>ignore</param-name>
+	        <param-value>false</param-value>
+	    </init-param>
+	</filter>
+	<filter-mapping>
+	    <filter-name>Set Character Encoding</filter-name>
+	    <url-pattern>/*</url-pattern>
+	</filter-mapping>
 	<!--	Set session timeout 
 	<session-config> 
         <session-timeout>1</session-timeout>
