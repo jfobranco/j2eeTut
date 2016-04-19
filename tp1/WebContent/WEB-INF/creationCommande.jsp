@@ -10,9 +10,11 @@
    		<c:import url="/inc/menu.jsp" />
         <div>
             <form method="post" action="<c:url value="/creationCommande"/>">
-            	<c:set var="client" value="${ commande.client }" scope="request" />
+            	<c:set var="customer" value="${ order.customer }" scope="request" />
             	<fieldset>
-                	<c:import url="/inc/clientInput.jsp" />
+                	<c:import url="/inc/clientInput.jsp">
+                		<c:param name="isOrder" value="1"/>
+                	</c:import>
                 </fieldset>
                 <fieldset>
                     <legend>Informations commande</legend>

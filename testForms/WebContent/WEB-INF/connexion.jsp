@@ -12,7 +12,7 @@
                 <legend>Connexion</legend>
                 <p>Vous pouvez vous connecter via ce formulaire.</p>
                 <c:if test="${empty sessionScope.sessionUtilisateur && !empty requestScope.intervalleConnexions}">
-                	<p class="info">(Vous ne vous Ãªtes pas connectÃ©(e) depuis ce navigateur depuis ${requestScope.intervalleConnexions})</p>
+                	<p class="info">(Vous ne vous êtes pas connécté(e) depuis ce navigateur depuis ${requestScope.intervalleConnexions})</p>
                 </c:if>
 
                 <label for="nom">Adresse email <span class="requis">*</span></label>
@@ -38,7 +38,7 @@
                 <%-- VÃ©rification de la prÃ©sence d'un objet utilisateur en session --%>
                 <c:if test="${!empty sessionScope.sessionUtilisateur}">
                     <%-- Si l'utilisateur existe en session, alors on affiche son adresse email. --%>
-                	<p class="succes">Vous Ãªtes connectÃ©(e) avec l'adresse : ${sessionScope.sessionUtilisateur.email}</p>
+                	<p class="succes">Vous êtes connecté(e) avec l'adresse : ${sessionScope.sessionUtilisateur.email}</p>
                 </c:if>
             </fieldset>
         </form>

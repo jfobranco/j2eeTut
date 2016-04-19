@@ -11,11 +11,11 @@
     	<p class="${empty form.erreurs ? 'succes' : 'erreur'}">${form.resultat}</p>
         <div>
         Client<br>
-        Prénom: <c:out value="${customer.firstName}"/><br>
-        Nom: <c:out value="${customer.lastName}"/><br>
-        Address: <c:out value="${customer.address}"/><br>
-        Téléphone: <c:out value="${customer.phone}"/><br>
-        Mail: <c:out value="${customer.mail}"/><br>
+        Prénom: <c:out value="${order.customer.firstName}"/><br>
+        Nom: <c:out value="${order.customer.lastName}"/><br>
+        Address: <c:out value="${order.customer.address}"/><br>
+        Téléphone: <c:out value="${order.customer.phone}"/><br>
+        Mail: <c:out value="${order.customer.mail}"/><br>
 		<br>
 		Commande<br>
         Date: <c:out value="${order.date}"/><br>
