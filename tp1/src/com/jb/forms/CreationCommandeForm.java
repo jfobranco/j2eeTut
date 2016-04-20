@@ -5,23 +5,24 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import com.jb.beans.Customer;
 import com.jb.beans.Order;
 
 public class CreationCommandeForm {
 
-	public static final String PARAM_FIRSTNAME = "prenomClient";
-	public static final String PARAM_NAME = "nomClient";
-	public static final String PARAM_ADDRESS = "adresseClient";
-	public static final String PARAM_PHONE = "telephoneClient";
-	public static final String PARAM_MAIL = "emailClient";
+	private static final String PARAM_NEWCLIENT = "choixNouveauClient";
+	private static final String PARAM_CLIENTLIST = "listeClients";
 
 	public static final String PARAM_AMOUNT = "montantCommande";
 	public static final String PARAM_PAYMENTMODE = "modePaiementCommande";
 	public static final String PARAM_PAYMENTSTATUS = "statutPaiementCommande";
 	public static final String PARAM_DELIVERYMODE = "modeLivraisonCommande";
 	public static final String PARAM_DELIVERYSTATUS = "statutLivraisonCommande";
+
+	private static final String ANCIEN_CLIENT = "ancienClient";
+	public static final String ATT_SESSION_CUSTOMERS = "customerlist";
 
 	private String resultat;
 	private Map<String, String> erreurs = new HashMap<String, String>();
@@ -36,10 +37,17 @@ public class CreationCommandeForm {
 
 	public Order createOrder(HttpServletRequest request) {
 
-		CreationClientForm clientForm = new CreationClientForm();
-		Customer customer = clientForm.createCustomer(request);
-
-		erreurs = clientForm.getErreurs();
+		Customer customer = null;
+		String choixNouveauClient = getValeurChamp(request, PARAM_NEWCLIENT);
+		if (ANCIEN_CLIENT.equals(choixNouveauClient)) {
+			String nomAncienClient = getValeurChamp(request, PARAM_CLIENTLIST);
+			HttpSession session = request.getSession();
+			customer = ((Map<String, Customer>) session.getAttribute(ATT_SESSION_CUSTOMERS)).get(nomAncienClient);
+		} else {
+			CreationClientForm clientForm = new CreationClientForm();
+			customer = clientForm.createCustomer(request);
+			erreurs = clientForm.getErreurs();
+		}
 
 		// String date = request.getParameter( "dateCommande" );
 		String amount = getValeurChamp(request, PARAM_AMOUNT);

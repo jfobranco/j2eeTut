@@ -11,6 +11,7 @@
         <div>
             <form method="post" action="<c:url value="/creationClient"/>">
             	<fieldset>
+            		<legend>Informations client</legend>
                 	<c:import url="/inc/clientInput.jsp" />
 					<p class="${empty form.erreurs ? 'succes' : 'erreur'}">${form.resultat}</p>
 				</fieldset>

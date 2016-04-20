@@ -1,18 +1,23 @@
 package com.sdzee.tp.servlets;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.sdzee.tp.beans.Client;
 import com.sdzee.tp.forms.CreationClientForm;
 
 public class CreationClient extends HttpServlet {
+
 	public static final String ATT_CLIENT = "client";
 	public static final String ATT_FORM = "form";
+	public static final String SESSION_CLIENTS = "clients";
 
 	public static final String VUE_SUCCES = "/WEB-INF/afficherClient.jsp";
 	public static final String VUE_FORM = "/WEB-INF/creerClient.jsp";
@@ -33,8 +38,23 @@ public class CreationClient extends HttpServlet {
 		request.setAttribute(ATT_CLIENT, client);
 		request.setAttribute(ATT_FORM, form);
 
+		/* Si aucune erreur */
 		if (form.getErreurs().isEmpty()) {
-			/* Si aucune erreur, alors affichage de la fiche récapitulative */
+			/* Alors récupération de la map des clients dans la session */
+			HttpSession session = request.getSession();
+			Map<String, Client> clients = (HashMap<String, Client>) session.getAttribute(SESSION_CLIENTS);
+			/*
+			 * Si aucune map n'existe, alors initialisation d'une nouvelle map
+			 */
+			if (clients == null) {
+				clients = new HashMap<String, Client>();
+			}
+			/* Puis ajout du client courant dans la map */
+			clients.put(client.getNom(), client);
+			/* Et enfin (ré)enregistrement de la map en session */
+			session.setAttribute(SESSION_CLIENTS, clients);
+
+			/* Affichage de la fiche récapitulative */
 			this.getServletContext().getRequestDispatcher(VUE_SUCCES).forward(request, response);
 		} else {
 			/* Sinon, ré-affichage du formulaire de création avec les erreurs */
