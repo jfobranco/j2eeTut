@@ -48,6 +48,16 @@
 	    </init-param>
 	</servlet>
 
+	<servlet>
+		<servlet-name>GestionTestJDBC</servlet-name>
+		<servlet-class>com.sdzee.servlets.GestionTestJDBC</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>GestionTestJDBC</servlet-name>
+		<url-pattern>/testjdbc</url-pattern>
+	</servlet-mapping>
+
 	<servlet-mapping>
 		<servlet-name>Inscription</servlet-name>
 		<url-pattern>/inscription</url-pattern>
