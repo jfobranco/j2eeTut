@@ -14,7 +14,7 @@ import com.sdzee.tp.beans.Client;
 import com.sdzee.tp.forms.CreationClientForm;
 
 public class CreationClient extends HttpServlet {
-
+	public static final String CHEMIN = "chemin";
 	public static final String ATT_CLIENT = "client";
 	public static final String ATT_FORM = "form";
 	public static final String SESSION_CLIENTS = "clients";
@@ -28,11 +28,17 @@ public class CreationClient extends HttpServlet {
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		/*
+		 * Lecture du paramètre 'chemin' passé à la servlet via la déclaration
+		 * dans le web.xml
+		 */
+		String chemin = this.getServletConfig().getInitParameter(CHEMIN);
+
 		/* Préparation de l'objet formulaire */
 		CreationClientForm form = new CreationClientForm();
 
 		/* Traitement de la requête et récupération du bean en résultant */
-		Client client = form.creerClient(request);
+		Client client = form.creerClient(request, chemin);
 
 		/* Ajout du bean et de l'objet métier à l'objet requête */
 		request.setAttribute(ATT_CLIENT, client);

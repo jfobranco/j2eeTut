@@ -15,6 +15,7 @@ import com.sdzee.tp.beans.Commande;
 import com.sdzee.tp.forms.CreationCommandeForm;
 
 public class CreationCommande extends HttpServlet {
+	public static final String CHEMIN = "chemin";
 	public static final String ATT_COMMANDE = "commande";
 	public static final String ATT_FORM = "form";
 	public static final String SESSION_CLIENTS = "clients";
@@ -29,11 +30,17 @@ public class CreationCommande extends HttpServlet {
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		/*
+		 * Lecture du paramètre 'chemin' passé à la servlet via la déclaration
+		 * dans le web.xml
+		 */
+		String chemin = this.getServletConfig().getInitParameter(CHEMIN);
+
 		/* Préparation de l'objet formulaire */
 		CreationCommandeForm form = new CreationCommandeForm();
 
 		/* Traitement de la requête et récupération du bean en résultant */
-		Commande commande = form.creerCommande(request);
+		Commande commande = form.creerCommande(request, chemin);
 
 		/* Ajout du bean et de l'objet métier à l'objet requête */
 		request.setAttribute(ATT_COMMANDE, commande);
