@@ -8,6 +8,10 @@
 		</jsp-property-group>
 	</jsp-config>
  
+ 	<listener>
+	    <listener-class>com.jb.config.InitDaoFactory</listener-class>
+	</listener>
+
 	<servlet>
 		<servlet-name>CreationClient</servlet-name>
 		<servlet-class>com.jb.servlets.CreationClient</servlet-class>

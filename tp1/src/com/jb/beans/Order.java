@@ -3,6 +3,7 @@ package com.jb.beans;
 import java.util.Date;
 
 public class Order {
+	private Long id;
 	private Customer customer;
 	private Date date;
 	private Double amount;
@@ -65,5 +66,13 @@ public class Order {
 
 	public void setDeliveryStatus(String deliveryStatus) {
 		this.deliveryStatus = deliveryStatus;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 }
