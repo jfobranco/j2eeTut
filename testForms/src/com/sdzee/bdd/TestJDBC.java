@@ -2,6 +2,7 @@ package com.sdzee.bdd;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -31,6 +32,7 @@ public class TestJDBC {
 		String motDePasse = "$dZ_£E";
 		Connection connexion = null;
 		Statement statement = null;
+		PreparedStatement preparedStatement = null;
 		ResultSet resultat = null;
 		try {
 			messages.add("Connexion à la base de données...");
@@ -45,25 +47,80 @@ public class TestJDBC {
 			 * Exécution d'une requête d'écriture avec renvoi de l'id
 			 * auto-généré
 			 */
-			int statut = statement.executeUpdate(
-					"INSERT INTO Utilisateur (email, mot_de_passe, nom, date_inscription) VALUES ('jmarc2@mail.fr', MD5('lavieestbelle78'), 'jean-marc', NOW());",
-					Statement.RETURN_GENERATED_KEYS);
-
-			/* Formatage pour affichage dans la JSP finale. */
-			messages.add("Résultat de la requête d'insertion : " + statut + ".");
+			// int statut = statement.executeUpdate(
+			// "INSERT INTO Utilisateur (email, mot_de_passe, nom,
+			// date_inscription) VALUES ('jmarc@mail.fr',
+			// MD5('lavieestbelle78'), 'jean-marc', NOW());",
+			// Statement.RETURN_GENERATED_KEYS);
+			//
+			// /* Formatage pour affichage dans la JSP finale. */
+			// messages.add("Résultat de la requête d'insertion : " + statut +
+			// ".");
 
 			/* Récupération de l'id auto-généré par la requête d'insertion. */
-			resultat = statement.getGeneratedKeys();
+			// resultat = statement.getGeneratedKeys();
 			/*
 			 * Parcours du ResultSet et formatage pour affichage de la valeur
 			 * qu'il contient dans la JSP finale.
 			 */
-			while (resultat.next()) {
-				messages.add("ID retourné lors de la requête d'insertion :" + resultat.getInt(1));
-			}
+			// while (resultat.next()) {
+			// messages.add("ID retourné lors de la requête d'insertion :" +
+			// resultat.getInt(1));
+			// }
+
+			// create record with data from request
+			/* Récupération des paramètres d'URL saisis par l'utilisateur */
+			String paramEmail = request.getParameter("email");
+			String paramMotDePasse = request.getParameter("motdepasse");
+			String paramNom = request.getParameter("nom");
+
+			// if (paramEmail != null && paramMotDePasse != null && paramNom !=
+			// null) {
+			// /* Exécution d'une requête d'écriture */
+			// int statut = statement.executeUpdate(
+			// "INSERT INTO Utilisateur (email, mot_de_passe, nom,
+			// date_inscription) " + "VALUES ('"
+			// + paramEmail + "', MD5('" + paramMotDePasse + "'), '" + paramNom
+			// + "', NOW());");
+			//
+			// /* Formatage pour affichage dans la JSP finale. */
+			// messages.add("Résultat de la requête d'insertion : " + statut +
+			// ".");
+			// }
+
+			// Using prepared statements
+
+			/* Création de l'objet gérant les requêtes préparées */
+			preparedStatement = connexion.prepareStatement(
+					"INSERT INTO Utilisateur (email, mot_de_passe, nom, date_inscription) VALUES(?, MD5(?), ?, NOW());",
+					Statement.RETURN_GENERATED_KEYS);
+
+			/*
+			 * Remplissage des paramètres de la requête grâce aux méthodes
+			 * setXXX() mises à disposition par l'objet PreparedStatement.
+			 */
+			preparedStatement.setString(1, paramEmail);
+			preparedStatement.setString(2, paramMotDePasse);
+			preparedStatement.setString(3, paramNom);
+
+			/* Exécution de la requête */
+			int statut = preparedStatement.executeUpdate();
+
+			/* Formatage pour affichage dans la JSP finale. */
+			messages.add("Résultat de la requête d'insertion préparée : " + statut + ".");
 
 			/* Exécution d'une requête de lecture */
-			resultat = statement.executeQuery("SELECT id, email, mot_de_passe, nom FROM Utilisateur;");
+			// resultat = statement.executeQuery("SELECT id, email,
+			// mot_de_passe, nom FROM Utilisateur;");
+			// messages.add("Requête \"SELECT id, email, mot_de_passe, nom FROM
+			// Utilisateur;\" effectuée !");
+
+			/* Création de l'objet gérant les requêtes préparées */
+			preparedStatement = connexion.prepareStatement("SELECT id, email, mot_de_passe, nom FROM Utilisateur;");
+			messages.add("Requête préparée créée !");
+
+			/* Exécution d'une requête de lecture */
+			resultat = preparedStatement.executeQuery();
 			messages.add("Requête \"SELECT id, email, mot_de_passe, nom FROM Utilisateur;\" effectuée !");
 
 			/* Récupération des données du résultat de la requête de lecture */
@@ -77,6 +134,7 @@ public class TestJDBC {
 						"Données retournées par la requête : id = " + idUtilisateur + ", email = " + emailUtilisateur
 								+ ", motdepasse = " + motDePasseUtilisateur + ", nom = " + nomUtilisateur + ".");
 			}
+
 		} catch (SQLException e) {
 			messages.add("Erreur lors de la connexion : <br/>" + e.getMessage());
 		} finally {
@@ -91,6 +149,13 @@ public class TestJDBC {
 			if (statement != null) {
 				try {
 					statement.close();
+				} catch (SQLException ignore) {
+				}
+			}
+			messages.add("Fermeture de l'objet PreparedStatement.");
+			if (preparedStatement != null) {
+				try {
+					preparedStatement.close();
 				} catch (SQLException ignore) {
 				}
 			}
