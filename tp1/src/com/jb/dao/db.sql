@@ -1,3 +1,10 @@
+Password CHANGED!
+
+
+
+
+
+
 CREATE DATABASE j2eeTP DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 GRANT ALL ON j2eeTP.* TO 'java'@'localhost' IDENTIFIED BY 'j2eeTP';
 

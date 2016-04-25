@@ -7,16 +7,18 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 
 import com.jb.beans.Customer;
 import com.jb.beans.Order;
 
-public class OrderDaoImpl implements CustomerDao {
+public class OrderDaoImpl implements OrderDao {
 
-	private static final String SQL_SELECT_BY_NAME = "SELECT id, email, nom, mot_de_passe, date_inscription FROM Utilisateur WHERE lastName = ?";
-	private static final String SQL_SELECT_BY_FULLNAME = "SELECT id, email, nom, mot_de_passe, date_inscription FROM Utilisateur WHERE firstName = ? AND lastName = ?";
-	private static final String SQL_SELECT_BY_ID = "SELECT id, email, nom, mot_de_passe, date_inscription FROM Utilisateur WHERE id = ?";
-	private static final String SQL_INSERT = "INSERT INTO Customer (address, firstName, lastName, mail, phone) VALUES (?, ?, ?, ?, ?)";
+	private static final String SQL_SELECT_BY_DATE = "SELECT clientId, date, paymentMethod, paymentStatus, deliveryMode, deliveryStatus FROM Order WHERE date = ?";
+	private static final String SQL_SELECT_BY_DATECUSTOMER = "SELECT clientId, date, paymentMethod, paymentStatus, deliveryMode, deliveryStatus FROM Order WHERE date = ? AND clientId = ?";
+	private static final String SQL_SELECT_BY_ID = "SELECT clientId, date, paymentMethod, paymentStatus, deliveryMode, deliveryStatus FROM Order WHERE id = ?";
+	private static final String SQL_INSERT = "INSERT INTO Order (clientId, date, paymentMethod, paymentStatus, deliveryMode, deliveryStatus) VALUES (?, ?, ?, ?, ?, ?)";
+	private static final String SQL_DELETE = "DELETE FROM Order WHERE id = ?";
 
 	private DAOFactory daoFactory;
 
@@ -24,36 +26,36 @@ public class OrderDaoImpl implements CustomerDao {
 		this.daoFactory = daoFactory;
 	}
 
-	@Override
-	public Customer find(String name, String firstName) throws DAOException {
-		return trouver(SQL_SELECT_BY_FULLNAME, firstName, name);
+	public Order find(Date date) throws DAOException {
+		return trouver(SQL_SELECT_BY_DATE, date);
 	}
 
-	public Customer find(String name) throws DAOException {
-		return trouver(SQL_SELECT_BY_NAME, name);
+	public Order find(Date date, Customer customer) throws DAOException {
+		return trouver(SQL_SELECT_BY_DATECUSTOMER, date, customer.getId());
 	}
 
-	public Customer findId(String id) throws DAOException {
+	public Order findId(String id) throws DAOException {
 		return trouver(SQL_SELECT_BY_ID, id);
 	}
 
 	@Override
-	public void create(Customer customer) throws DAOException {
+	public void create(Order order) throws DAOException {
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet valeursAutoGenerees = null;
 
 		try {
 			connexion = daoFactory.getConnection();
-			preparedStatement = initialisationRequetePreparee(connexion, SQL_INSERT, true, customer.getAddress(),
-					customer.getFirstName(), customer.getLastName(), customer.getMail(), customer.getPhone());
+			preparedStatement = initialisationRequetePreparee(connexion, SQL_INSERT, true, order.getCustomer().getId(),
+					order.getDate(), order.getPaymentMethod(), order.getPaymentStatus(), order.getDeliveryMode(),
+					order.getDeliveryStatus());
 			int statut = preparedStatement.executeUpdate();
 			if (statut == 0) {
 				throw new DAOException("Échec de la création de l'utilisateur, aucune ligne ajoutée dans la table.");
 			}
 			valeursAutoGenerees = preparedStatement.getGeneratedKeys();
 			if (valeursAutoGenerees.next()) {
-				customer.setId(valeursAutoGenerees.getLong(1));
+				order.setId(valeursAutoGenerees.getLong(1));
 			} else {
 				throw new DAOException("Échec de la création de l'utilisateur en base, aucun ID auto-généré retourné.");
 			}
@@ -61,6 +63,23 @@ public class OrderDaoImpl implements CustomerDao {
 			throw new DAOException(e);
 		} finally {
 			fermeturesSilencieuses(valeursAutoGenerees, preparedStatement, connexion);
+		}
+	}
+
+	public void delete(Long id) throws DAOException {
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+
+		try {
+			connexion = daoFactory.getConnection();
+			preparedStatement = initialisationRequetePreparee(connexion, SQL_DELETE, true, id);
+			int statut = preparedStatement.executeUpdate();
+			if (statut == 0)
+				throw new DAOException("Échec de la suppression de la commande.");
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			fermeturesSilencieuses(preparedStatement, connexion);
 		}
 	}
 
@@ -86,11 +105,6 @@ public class OrderDaoImpl implements CustomerDao {
 		return order;
 	}
 
-	/*
-	 * Simple méthode utilitaire permettant de faire la correspondance (le
-	 * mapping) entre une ligne issue de la table des utilisateurs (un
-	 * ResultSet) et un bean Utilisateur.
-	 */
 	private Order map(ResultSet resultSet) throws SQLException {
 		CustomerDaoImpl customer = new CustomerDaoImpl(daoFactory);
 		Order order = new Order();

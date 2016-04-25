@@ -12,10 +12,11 @@ import com.jb.beans.Customer;
 
 public class CustomerDaoImpl implements CustomerDao {
 
-	private static final String SQL_SELECT_BY_NAME = "SELECT id, email, nom, mot_de_passe, date_inscription FROM Utilisateur WHERE lastName = ?";
-	private static final String SQL_SELECT_BY_FULLNAME = "SELECT id, email, nom, mot_de_passe, date_inscription FROM Utilisateur WHERE firstName = ? AND lastName = ?";
-	private static final String SQL_SELECT_BY_ID = "SELECT id, email, nom, mot_de_passe, date_inscription FROM Utilisateur WHERE id = ?";
+	private static final String SQL_SELECT_BY_NAME = "SELECT id, email, nom, mot_de_passe, date_inscription FROM Customer WHERE lastName = ?";
+	private static final String SQL_SELECT_BY_FULLNAME = "SELECT id, email, nom, mot_de_passe, date_inscription FROM Customer WHERE firstName = ? AND lastName = ?";
+	private static final String SQL_SELECT_BY_ID = "SELECT id, email, nom, mot_de_passe, date_inscription FROM Customer WHERE id = ?";
 	private static final String SQL_INSERT = "INSERT INTO Customer (address, firstName, lastName, mail, phone) VALUES (?, ?, ?, ?, ?)";
+	private static final String SQL_DELETE = "DELETE FROM Customer WHERE id = ?";
 
 	private DAOFactory daoFactory;
 
@@ -25,15 +26,15 @@ public class CustomerDaoImpl implements CustomerDao {
 
 	@Override
 	public Customer find(String name, String firstName) throws DAOException {
-		return trouver(SQL_SELECT_BY_FULLNAME, firstName, name);
+		return find(SQL_SELECT_BY_FULLNAME, firstName, name);
 	}
 
 	public Customer find(String name) throws DAOException {
-		return trouver(SQL_SELECT_BY_NAME, name);
+		return find(SQL_SELECT_BY_NAME, name);
 	}
 
 	public Customer findId(Long id) throws DAOException {
-		return trouver(SQL_SELECT_BY_ID, id);
+		return find(SQL_SELECT_BY_ID, id);
 	}
 
 	@Override
@@ -63,7 +64,24 @@ public class CustomerDaoImpl implements CustomerDao {
 		}
 	}
 
-	private Customer trouver(String sql, Object... objets) throws DAOException {
+	public void delete(Long id) throws DAOException {
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+
+		try {
+			connexion = daoFactory.getConnection();
+			preparedStatement = initialisationRequetePreparee(connexion, SQL_DELETE, true, id);
+			int statut = preparedStatement.executeUpdate();
+			if (statut == 0)
+				throw new DAOException("Échec de la suppression de l'utilisateur.");
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			fermeturesSilencieuses(preparedStatement, connexion);
+		}
+	}
+
+	private Customer find(String sql, Object... objets) throws DAOException {
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;

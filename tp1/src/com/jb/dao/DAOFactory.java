@@ -75,4 +75,8 @@ public class DAOFactory {
 	public CustomerDao getCustomerDao() {
 		return new CustomerDaoImpl(this);
 	}
+
+	public OrderDao getOrderDao() {
+		return new OrderDaoImpl(this);
+	}
 }

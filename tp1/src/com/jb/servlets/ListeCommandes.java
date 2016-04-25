@@ -13,14 +13,18 @@ import javax.servlet.http.HttpSession;
 
 import com.jb.beans.Customer;
 import com.jb.beans.Order;
+import com.jb.dao.OrderDao;
 
 public class ListeCommandes extends HttpServlet {
 
+	public static final String CONF_DAO_FACTORY = "daofactory";
 	public static final String PARAM_ORDER = "order";
 	public static final String ATT_SESSION_ORDERS = "orderlist";
 	public static final String ATT_SESSION_CUSTOMERS = "customerlist";
 
 	public static final String VIEW = "/WEB-INF/listerCommandes.jsp";
+
+	private OrderDao orderDao;
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		/* Affichage de la page d'inscription */
@@ -74,6 +78,7 @@ public class ListeCommandes extends HttpServlet {
 			if (orderList.containsKey(order)) {
 				orderList.remove(order);
 				session.setAttribute(ATT_SESSION_ORDERS, orderList);
+				orderDao.delete(order);
 			}
 		}
 

@@ -9,6 +9,8 @@ import javax.servlet.http.HttpSession;
 
 import com.jb.beans.Customer;
 import com.jb.beans.Order;
+import com.jb.dao.CustomerDao;
+import com.jb.dao.OrderDao;
 
 public class CreationCommandeForm {
 
@@ -26,6 +28,13 @@ public class CreationCommandeForm {
 
 	private String resultat;
 	private Map<String, String> erreurs = new HashMap<String, String>();
+	private OrderDao orderDao;
+	private CustomerDao customerDao;
+
+	public CreationCommandeForm(OrderDao orderDao, CustomerDao customerDao) {
+		this.orderDao = orderDao;
+		this.customerDao = customerDao;
+	}
 
 	public String getResultat() {
 		return resultat;
@@ -44,7 +53,7 @@ public class CreationCommandeForm {
 			HttpSession session = request.getSession();
 			customer = ((Map<String, Customer>) session.getAttribute(ATT_SESSION_CUSTOMERS)).get(nomAncienClient);
 		} else {
-			CreationClientForm clientForm = new CreationClientForm();
+			CreationClientForm clientForm = new CreationClientForm(customerDao);
 			customer = clientForm.createCustomer(request);
 			erreurs = clientForm.getErreurs();
 		}
@@ -90,9 +99,10 @@ public class CreationCommandeForm {
 			erreurs.put(PARAM_DELIVERYSTATUS, "Le status de livraison doit contenir au moins 2 caractères.");
 		order.setDeliveryStatus(deliveryStatus);
 
-		if (erreurs.isEmpty())
+		if (erreurs.isEmpty()) {
 			resultat = "Succès de la création de la commande.";
-		else
+			orderDao.create(order);
+		} else
 			resultat = "Échec de la création de la commande.";
 
 		return order;

@@ -6,6 +6,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import com.jb.beans.Customer;
+import com.jb.dao.CustomerDao;
+import com.jb.dao.DAOException;
 
 public class CreationClientForm {
 	public static final String PARAM_FIRSTNAME = "prenomClient";
@@ -16,6 +18,11 @@ public class CreationClientForm {
 
 	private String resultat;
 	private Map<String, String> erreurs = new HashMap<String, String>();
+	private CustomerDao customerDao;
+
+	public CreationClientForm(CustomerDao customerDao) {
+		this.customerDao = customerDao;
+	}
 
 	public String getResultat() {
 		return resultat;
@@ -71,9 +78,15 @@ public class CreationClientForm {
 			erreurs.put(PARAM_MAIL, "Merci de saisir une adresse mail valide.");
 		customer.setMail(mail);
 
-		if (erreurs.isEmpty())
+		if (erreurs.isEmpty()) {
 			resultat = "Succès de la création du client.";
-		else
+			try {
+				customerDao.create(customer);
+			} catch (DAOException e) {
+				resultat = "Échec de l'inscription : une erreur imprévue est survenue, merci de réessayer dans quelques instants.";
+				e.printStackTrace();
+			}
+		} else
 			resultat = "Échec de la création du client.";
 
 		return customer;
