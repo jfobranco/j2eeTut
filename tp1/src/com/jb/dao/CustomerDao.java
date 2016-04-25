@@ -1,5 +1,7 @@
 package com.jb.dao;
 
+import java.util.Map;
+
 import com.jb.beans.Customer;
 
 public interface CustomerDao {
@@ -13,5 +15,7 @@ public interface CustomerDao {
 	Customer find(String firstName, String lastName) throws DAOException;
 
 	Customer findId(Long id) throws DAOException;
+
+	Map<Long, Customer> list() throws DAOException;
 
 }

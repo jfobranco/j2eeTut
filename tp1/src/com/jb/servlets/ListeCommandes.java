@@ -33,20 +33,22 @@ public class ListeCommandes extends HttpServlet {
 		if (orderList == null) {
 			orderList = new HashMap<Long, Order>();
 
-			Map<String, Customer> customerList = (Map<String, Customer>) session.getAttribute(ATT_SESSION_CUSTOMERS);
+			Map<Long, Customer> customerList = (Map<Long, Customer>) session.getAttribute(ATT_SESSION_CUSTOMERS);
 			if (customerList == null)
-				customerList = new HashMap<String, Customer>();
+				customerList = new HashMap<Long, Customer>();
 
 			for (int i = 1; i < 10; i++) {
 				Customer c = new Customer();
 				String lastName = "last Name " + i;
+				c.setId((long) i);
 				c.setLastName(lastName);
 				c.setFirstName("first Name " + i);
 				c.setAddress("address " + i);
 				c.setPhone("100000" + i);
 				c.setMail("aaa" + i + "@test.com");
-				customerList.put(lastName, c);
+				customerList.put((long) i, c);
 				Order o = new Order();
+				o.setId((long) i);
 				o.setDate(new Date(2016, 4, i));
 				o.setCustomer(c);
 				o.setAmount(100.0 + i);
@@ -54,7 +56,7 @@ public class ListeCommandes extends HttpServlet {
 				o.setPaymentStatus("bb" + i);
 				o.setDeliveryMode("cc" + i);
 				o.setDeliveryStatus("dd" + i);
-				orderList.put(o.getDate().getTime(), o);
+				orderList.put((long) i, o);
 			}
 			session.setAttribute(ATT_SESSION_ORDERS, orderList);
 			session.setAttribute(ATT_SESSION_CUSTOMERS, customerList);

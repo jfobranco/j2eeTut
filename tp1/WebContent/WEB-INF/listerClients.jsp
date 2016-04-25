@@ -23,7 +23,7 @@
 		        <td><c:out value="${item.value.phone}"/></td>
 		        <td><c:out value="${item.value.mail}"/></td>
 		        <td><form action="" method="post">
-    				<button name="customer" value="${item.value.lastName}">X</button>
+    				<button name="customer" value="${item.value.id}">X</button>
 					</form>
 				</td>
 		     	</tr>

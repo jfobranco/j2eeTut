@@ -33,15 +33,16 @@ public class ListeClients extends HttpServlet {
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String customer = request.getParameter(PARAM_CUSTOMER);
-		if (customer == null || customer.trim().length() == 0)
-			customer = null;
+		String customerStr = request.getParameter(PARAM_CUSTOMER);
+		if (customerStr == null || customerStr.trim().length() == 0)
+			customerStr = null;
 		else
-			customer = customer.trim();
+			customerStr = customerStr.trim();
 
 		HttpSession session = request.getSession();
-		Map<String, Customer> customerList = (Map<String, Customer>) session.getAttribute(ATT_SESSION_CUSTOMERS);
+		Map<Long, Customer> customerList = (Map<Long, Customer>) session.getAttribute(ATT_SESSION_CUSTOMERS);
 
+		Long customer = Long.decode(customerStr);
 		if (customerList.containsKey(customer)) {
 			Customer c = customerList.get(customer);
 			Long id = c.getId();

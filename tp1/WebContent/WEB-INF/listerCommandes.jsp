@@ -25,7 +25,7 @@
 		        <td><c:out value="${item.value.deliveryMode}"/></td>
 		        <td><c:out value="${item.value.deliveryStatus}"/></td>
 		        <td><form action="" method="post">
-    				<button name="order" value="${item.value.date.time}">X</button>
+    				<button name="order" value="${item.value.id}">X</button>
 					</form>
 				</td>
 		     	</tr>

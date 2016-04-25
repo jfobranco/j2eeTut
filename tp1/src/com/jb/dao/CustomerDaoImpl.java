@@ -7,16 +7,19 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.jb.beans.Customer;
 
 public class CustomerDaoImpl implements CustomerDao {
 
-	private static final String SQL_SELECT_BY_NAME = "SELECT id, email, nom, mot_de_passe, date_inscription FROM Customer WHERE lastName = ?";
-	private static final String SQL_SELECT_BY_FULLNAME = "SELECT id, email, nom, mot_de_passe, date_inscription FROM Customer WHERE firstName = ? AND lastName = ?";
-	private static final String SQL_SELECT_BY_ID = "SELECT id, email, nom, mot_de_passe, date_inscription FROM Customer WHERE id = ?";
-	private static final String SQL_INSERT = "INSERT INTO Customer (address, firstName, lastName, mail, phone) VALUES (?, ?, ?, ?, ?)";
-	private static final String SQL_DELETE = "DELETE FROM Customer WHERE id = ?";
+	private static final String SQL_SELECT = "SELECT id, address, firstName, lastName, mail, phone FROM j2eetp.customer";
+	private static final String SQL_SELECT_BY_NAME = "SELECT id, address, firstName, lastName, mail, phone FROM j2eetp.customer WHERE lastName = ?";
+	private static final String SQL_SELECT_BY_FULLNAME = "SELECT id, address, firstName, lastName, mail, phone FROM j2eetp.customer WHERE firstName = ? AND lastName = ?";
+	private static final String SQL_SELECT_BY_ID = "SELECT id, address, firstName, lastName, mail, phone FROM j2eetp.customer WHERE id = ?";
+	private static final String SQL_INSERT = "INSERT INTO j2eetp.customer (address, firstName, lastName, mail, phone) VALUES (?, ?, ?, ?, ?)";
+	private static final String SQL_DELETE = "DELETE FROM j2eetp.customer WHERE id = ?";
 
 	private DAOFactory daoFactory;
 
@@ -35,6 +38,29 @@ public class CustomerDaoImpl implements CustomerDao {
 
 	public Customer findId(Long id) throws DAOException {
 		return find(SQL_SELECT_BY_ID, id);
+	}
+
+	public Map<Long, Customer> list() throws DAOException {
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		HashMap<Long, Customer> result = new HashMap<Long, Customer>();
+
+		try {
+			connexion = daoFactory.getConnection();
+			preparedStatement = initialisationRequetePreparee(connexion, SQL_SELECT, false);
+			resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				Customer customer = map(resultSet);
+				result.put(customer.getId(), customer);
+			}
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			fermeturesSilencieuses(resultSet, preparedStatement, connexion);
+		}
+
+		return result;
 	}
 
 	@Override

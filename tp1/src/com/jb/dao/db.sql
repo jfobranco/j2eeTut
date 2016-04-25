@@ -1,5 +1,5 @@
-Password CHANGED!
-
++ Password CHANGED!
+- order should have foreign key so orders get erased when client is erased (or don't allow to remove client if order present)
 
 
 

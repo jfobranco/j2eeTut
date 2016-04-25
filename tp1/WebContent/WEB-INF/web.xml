@@ -8,6 +8,32 @@
 		</jsp-property-group>
 	</jsp-config>
  
+	<filter>
+        <filter-name>Set Character Encoding</filter-name>
+        <filter-class>org.apache.catalina.filters.SetCharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+        <init-param>
+            <param-name>ignore</param-name>
+            <param-value>false</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>Set Character Encoding</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+	<filter>
+        <filter-name>LoadingFilter</filter-name>
+        <filter-class>com.jb.filters.LoadingFilter</filter-class>
+	</filter>
+	<filter-mapping>
+	    <filter-name>LoadingFilter</filter-name>
+	    <url-pattern>/*</url-pattern>
+	</filter-mapping>
+
  	<listener>
 	    <listener-class>com.jb.config.InitDaoFactory</listener-class>
 	</listener>
@@ -47,21 +73,4 @@
 		<servlet-name>ListeCommandes</servlet-name>
 		<url-pattern>/listeCommandes</url-pattern>
 	</servlet-mapping>
-
-	<filter>
-		<filter-name>Set Character Encoding</filter-name>
-		<filter-class>org.apache.catalina.filters.SetCharacterEncodingFilter</filter-class>
-		<init-param>
-			<param-name>encoding</param-name>
-			<param-value>UTF-8</param-value>
-		</init-param>
-		<init-param>
-			<param-name>ignore</param-name>
-			<param-value>false</param-value>
-		</init-param>
-	</filter>
-	<filter-mapping>
-		<filter-name>Set Character Encoding</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
 </web-app>

@@ -44,12 +44,12 @@ public class CreationClient extends HttpServlet {
 
 		HttpSession session = request.getSession();
 
-		Map<String, Customer> customerList = (Map<String, Customer>) session.getAttribute(ATT_SESSION_CUSTOMERS);
+		Map<Long, Customer> customerList = (Map<Long, Customer>) session.getAttribute(ATT_SESSION_CUSTOMERS);
 		if (customerList == null)
-			customerList = new HashMap<String, Customer>();
+			customerList = new HashMap<Long, Customer>();
 
 		if (form.getErreurs().isEmpty()) {
-			customerList.put(customer.getLastName(), customer);
+			customerList.put(customer.getId(), customer);
 			session.setAttribute(ATT_SESSION_CUSTOMERS, customerList);
 		}
 

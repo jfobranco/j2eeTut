@@ -55,15 +55,15 @@ public class CreationCommande extends HttpServlet {
 			if (orderList == null)
 				orderList = new HashMap<Long, Order>();
 
-			Map<String, Customer> customerList = (Map<String, Customer>) session.getAttribute(ATT_SESSION_CUSTOMERS);
+			Map<Long, Customer> customerList = (Map<Long, Customer>) session.getAttribute(ATT_SESSION_CUSTOMERS);
 			if (customerList == null)
-				customerList = new HashMap<String, Customer>();
+				customerList = new HashMap<Long, Customer>();
 
-			orderList.put(order.getDate().getTime(), order);
+			orderList.put(order.getId(), order);
 			session.setAttribute(ATT_SESSION_ORDERS, orderList);
 
 			if (!customerList.containsKey(order.getCustomer().getLastName())) {
-				customerList.put(order.getCustomer().getLastName(), order.getCustomer());
+				customerList.put(order.getCustomer().getId(), order.getCustomer());
 				session.setAttribute(ATT_SESSION_CUSTOMERS, customerList);
 			}
 		}
