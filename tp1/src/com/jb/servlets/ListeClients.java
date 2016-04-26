@@ -43,7 +43,7 @@ public class ListeClients extends HttpServlet {
 		Map<Long, Customer> customerList = (Map<Long, Customer>) session.getAttribute(ATT_SESSION_CUSTOMERS);
 
 		Long customer = Long.decode(customerStr);
-		if (customerList.containsKey(customer)) {
+		if (customerList != null && customer != null && customerList.containsKey(customer)) {
 			Customer c = customerList.get(customer);
 			Long id = c.getId();
 			customerList.remove(customer);

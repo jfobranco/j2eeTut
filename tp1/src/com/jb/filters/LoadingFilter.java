@@ -25,7 +25,15 @@ public class LoadingFilter implements Filter {
 	public static final String ATT_SESSION_ORDERS = "orderlist";
 	public static final String ATT_SESSION_CUSTOMERS = "customerlist";
 
+	private CustomerDao customerDao;
+	private OrderDao orderDao;
+
 	public void init(FilterConfig config) throws ServletException {
+		DAOFactory factory = (DAOFactory) config.getServletContext().getAttribute(CONF_DAO_FACTORY);
+		if (factory != null) {
+			this.customerDao = factory.getCustomerDao();
+			this.orderDao = factory.getOrderDao();
+		}
 	}
 
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
@@ -34,25 +42,19 @@ public class LoadingFilter implements Filter {
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) res;
 
-		DAOFactory factory = (DAOFactory) req.getServletContext().getAttribute(CONF_DAO_FACTORY);
-		if (factory != null) {
-			CustomerDao customerDao = factory.getCustomerDao();
-			OrderDao orderDao = factory.getOrderDao();
+		/* Récupération de la session depuis la requête */
+		HttpSession session = request.getSession();
 
-			/* Récupération de la session depuis la requête */
-			HttpSession session = request.getSession();
+		Map<Long, Customer> customerList = (Map<Long, Customer>) session.getAttribute(ATT_SESSION_CUSTOMERS);
+		if (customerList == null) {
+			customerList = customerDao.list();
+			session.setAttribute(ATT_SESSION_CUSTOMERS, customerList);
+		}
 
-			Map<Long, Customer> customerList = (Map<Long, Customer>) session.getAttribute(ATT_SESSION_CUSTOMERS);
-			if (customerList == null) {
-				customerList = customerDao.list();
-				session.setAttribute(ATT_SESSION_CUSTOMERS, customerList);
-			}
-
-			Map<Long, Order> orderList = (Map<Long, Order>) session.getAttribute(ATT_SESSION_ORDERS);
-			if (orderList == null) {
-				orderList = orderDao.list();
-				session.setAttribute(ATT_SESSION_ORDERS, orderList);
-			}
+		Map<Long, Order> orderList = (Map<Long, Order>) session.getAttribute(ATT_SESSION_ORDERS);
+		if (orderList == null) {
+			orderList = orderDao.list();
+			session.setAttribute(ATT_SESSION_ORDERS, orderList);
 		}
 
 		chain.doFilter(request, response);

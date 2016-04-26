@@ -48,9 +48,12 @@ public class CreationCommande extends HttpServlet {
 
 		Order order = form.createOrder(request);
 
-		HttpSession session = request.getSession();
+		request.setAttribute(ATT_ORDER, order);
+		request.setAttribute(ATT_FORM, form);
 
 		if (form.getErreurs().isEmpty()) {
+			HttpSession session = request.getSession();
+
 			Map<Long, Order> orderList = (Map<Long, Order>) session.getAttribute(ATT_SESSION_ORDERS);
 			if (orderList == null)
 				orderList = new HashMap<Long, Order>();
@@ -62,14 +65,11 @@ public class CreationCommande extends HttpServlet {
 			orderList.put(order.getId(), order);
 			session.setAttribute(ATT_SESSION_ORDERS, orderList);
 
-			if (!customerList.containsKey(order.getCustomer().getLastName())) {
+			if (!customerList.containsKey(order.getCustomer().getId())) {
 				customerList.put(order.getCustomer().getId(), order.getCustomer());
 				session.setAttribute(ATT_SESSION_CUSTOMERS, customerList);
 			}
 		}
-
-		request.setAttribute(ATT_ORDER, order);
-		request.setAttribute(ATT_FORM, form);
 
 		/* Transmission de la paire d'objets request/response à notre JSP */
 		this.getServletContext().getRequestDispatcher(form.getErreurs().isEmpty() ? VIEW2 : VIEW).forward(request,

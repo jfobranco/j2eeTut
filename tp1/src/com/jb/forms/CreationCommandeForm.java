@@ -49,9 +49,9 @@ public class CreationCommandeForm {
 		Customer customer = null;
 		String choixNouveauClient = getValeurChamp(request, PARAM_NEWCLIENT);
 		if (ANCIEN_CLIENT.equals(choixNouveauClient)) {
-			String nomAncienClient = getValeurChamp(request, PARAM_CLIENTLIST);
+			String idClient = getValeurChamp(request, PARAM_CLIENTLIST);
 			HttpSession session = request.getSession();
-			customer = ((Map<String, Customer>) session.getAttribute(ATT_SESSION_CUSTOMERS)).get(nomAncienClient);
+			customer = ((Map<Long, Customer>) session.getAttribute(ATT_SESSION_CUSTOMERS)).get(idClient);
 		} else {
 			CreationClientForm clientForm = new CreationClientForm(customerDao);
 			customer = clientForm.createCustomer(request);

@@ -1,5 +1,6 @@
 <%@ page pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="joda" uri="http://www.joda.org/joda/time/tags" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -19,7 +20,7 @@
             <p>Email : <c:out value="${ commande.client.email }"/></p>
             <p>Image : <c:out value="${ commande.client.image }"/></p>
             <p>Commande</p>
-            <p>Date  : <c:out value="${ commande.date }"/></p> 
+            <p>Date  : <joda:format value="${ commande.date }" pattern="dd/MM/yyyy HH:mm:ss"/></p> 
             <p>Montant  : <c:out value="${ commande.montant }"/></p> 
             <p>Mode de paiement  : <c:out value="${ commande.modePaiement }"/></p> 
             <p>Statut du paiement  : <c:out value="${ commande.statutPaiement }"/></p> 

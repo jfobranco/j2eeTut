@@ -33,7 +33,7 @@
                             <option value="">Choisissez un client...</option>
                             <%-- Boucle sur la map des clients --%>
                             <c:forEach items="${ sessionScope.customerlist }" var="mapClients">
-                            <option value="${ mapClients.value.lastName }">${ mapClients.value.firstName } ${ mapClients.value.lastName }</option>
+                            <option value="${ mapClients.value.id }">${ mapClients.value.firstName } ${ mapClients.value.lastName }</option>
                             </c:forEach>
                         </select>
                     </div>
