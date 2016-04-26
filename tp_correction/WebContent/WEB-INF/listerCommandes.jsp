@@ -1,5 +1,6 @@
 <%@ page pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="joda" uri="http://www.joda.org/joda/time/tags" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -34,7 +35,7 @@
                 <tr class="${boucle.index % 2 == 0 ? 'pair' : 'impair'}">
                     <%-- Affichage des propriétés du bean Commande, qui est stocké en tant que valeur de l'entrée courante de la map --%>
                     <td><c:out value="${ mapCommandes.value.client.prenom } ${ mapCommandes.value.client.nom }"/></td>
-                    <td><c:out value="${ mapCommandes.value.date }"/></td>
+                    <td><joda:format value="${ mapCommandes.value.date }" pattern="dd/MM/yyyy HH:mm:ss"/></td>
                     <td><c:out value="${ mapCommandes.value.montant }"/></td>
                     <td><c:out value="${ mapCommandes.value.modePaiement }"/></td>
                     <td><c:out value="${ mapCommandes.value.statutPaiement }"/></td>
@@ -42,7 +43,7 @@
                     <td><c:out value="${ mapCommandes.value.statutLivraison }"/></td>
                     <%-- Lien vers la servlet de suppression, avec passage de la date de la commande - c'est-à-dire la clé de la Map - en paramètre grâce à la balise <c:param/>. --%>
                     <td class="action">
-                        <a href="<c:url value="/suppressionCommande"><c:param name="dateCommande" value="${ mapCommandes.key }" /></c:url>">
+                        <a href="<c:url value="/suppressionCommande"><c:param name="idCommande" value="${ mapCommandes.key }" /></c:url>">
                             <img src="<c:url value="/inc/supprimer.png"/>" alt="Supprimer" />
                         </a>
                     </td>

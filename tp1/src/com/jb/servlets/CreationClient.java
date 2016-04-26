@@ -42,19 +42,18 @@ public class CreationClient extends HttpServlet {
 
 		Customer customer = form.createCustomer(request);
 
-		HttpSession session = request.getSession();
-
-		Map<Long, Customer> customerList = (Map<Long, Customer>) session.getAttribute(ATT_SESSION_CUSTOMERS);
-		if (customerList == null)
-			customerList = new HashMap<Long, Customer>();
+		request.setAttribute(ATT_FORM, form);
+		request.setAttribute(ATT_CUSTOMER, customer);
 
 		if (form.getErreurs().isEmpty()) {
+			HttpSession session = request.getSession();
+			Map<Long, Customer> customerList = (Map<Long, Customer>) session.getAttribute(ATT_SESSION_CUSTOMERS);
+			if (customerList == null)
+				customerList = new HashMap<Long, Customer>();
+
 			customerList.put(customer.getId(), customer);
 			session.setAttribute(ATT_SESSION_CUSTOMERS, customerList);
 		}
-
-		request.setAttribute(ATT_FORM, form);
-		request.setAttribute(ATT_CUSTOMER, customer);
 
 		/* Transmission de la paire d'objets request/response à notre JSP */
 		this.getServletContext().getRequestDispatcher(form.getErreurs().isEmpty() ? VIEW2 : VIEW).forward(request,

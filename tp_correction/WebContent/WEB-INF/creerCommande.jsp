@@ -1,5 +1,6 @@
 <%@ page pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="joda" uri="http://www.joda.org/joda/time/tags" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -35,7 +36,7 @@
                             <c:forEach items="${ sessionScope.clients }" var="mapClients">
                             <%--  L'expression EL ${mapClients.value} permet de cibler l'objet Client stocké en tant que valeur dans la Map, 
                                   et on cible ensuite simplement ses propriétés nom et prenom comme on le ferait avec n'importe quel bean. --%>
-                            <option value="${ mapClients.value.nom }">${ mapClients.value.prenom } ${ mapClients.value.nom }</option>
+                            <option value="${ mapClients.key }">${ mapClients.value.prenom } ${ mapClients.value.nom }</option>
                             </c:forEach>
                         </select>
                     </div>
@@ -45,7 +46,7 @@
                     <legend>Informations commande</legend>
                     
                     <label for="dateCommande">Date <span class="requis">*</span></label>
-                    <input type="text" id="v" name="dateCommande" value="<c:out value="${commande.date}"/>" size="30" maxlength="30" disabled />
+                    <input type="text" id="v" name="dateCommande" value="<joda:format value="${ commande.date }" pattern="dd/MM/yyyy HH:mm:ss"/>" size="30" maxlength="30" disabled />
                     <span class="erreur">${form.erreurs['dateCommande']}</span>
                     <br />
                     
