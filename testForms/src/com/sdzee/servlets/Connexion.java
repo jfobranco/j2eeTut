@@ -3,6 +3,7 @@ package com.sdzee.servlets;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +20,7 @@ import org.joda.time.format.PeriodFormatterBuilder;
 import com.sdzee.beans.Utilisateur;
 import com.sdzee.forms.ConnexionForm;
 
+@WebServlet("/connexion")
 public class Connexion extends HttpServlet {
 	public static final String ATT_USER = "utilisateur";
 	public static final String ATT_FORM = "form";

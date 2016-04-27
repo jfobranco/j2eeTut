@@ -3,6 +3,7 @@ package com.sdzee.servlets;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,6 +13,7 @@ import com.sdzee.dao.DAOFactory;
 import com.sdzee.dao.UtilisateurDao;
 import com.sdzee.forms.InscriptionForm;
 
+@WebServlet("/inscription")
 public class Inscription extends HttpServlet {
 	public static final String CONF_DAO_FACTORY = "daofactory";
 	public static final String ATT_USER = "utilisateur";
