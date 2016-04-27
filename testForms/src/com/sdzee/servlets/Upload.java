@@ -3,6 +3,9 @@ package com.sdzee.servlets;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.WebInitParam;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,6 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import com.sdzee.beans.Fichier;
 import com.sdzee.forms.UploadForm;
 
+@WebServlet(urlPatterns = "/upload", initParams = @WebInitParam(name = "chemin", value = "/fichiers/"))
+@MultipartConfig(location = "c:/fichiers", maxFileSize = 10 * 1024 * 1024, maxRequestSize = 5 * 10 * 1024
+		* 1024, fileSizeThreshold = 1024 * 1024)
 public class Upload extends HttpServlet {
 	public static final String CHEMIN = "chemin";
 

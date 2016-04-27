@@ -8,10 +8,12 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+@WebFilter(urlPatterns = "/restreint/*")
 public class RestrictionFilter implements Filter {
 	public static final String ACCES_CONNEXION = "/connexion";
 	public static final String ATT_SESSION_USER = "sessionUtilisateur";
