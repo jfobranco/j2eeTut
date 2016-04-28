@@ -1,9 +1,21 @@
-package com.jb.beans;
+package com.jb.entities;
 
 import java.util.Date;
 
-public class Order {
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+@Entity
+public class OrderHeader {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@ManyToOne
+	@JoinColumn(name = "clientId")
 	private Customer customer;
 	private Date date;
 	private Double amount;

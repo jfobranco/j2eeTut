@@ -4,19 +4,21 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.jb.beans.Customer;
-import com.jb.beans.Order;
 import com.jb.dao.CustomerDao;
-import com.jb.dao.DAOFactory;
-import com.jb.dao.OrderDao;
+import com.jb.dao.OrderHeaderDao;
+import com.jb.entities.Customer;
+import com.jb.entities.OrderHeader;
 import com.jb.forms.CreationCommandeForm;
 
+@WebServlet(urlPatterns = { "/creationCommande" })
 public class CreationCommande extends HttpServlet {
 
 	public static final String CONF_DAO_FACTORY = "daofactory";
@@ -28,15 +30,10 @@ public class CreationCommande extends HttpServlet {
 	public static final String VIEW = "/WEB-INF/creationCommande.jsp";
 	public static final String VIEW2 = "/WEB-INF/afficherCommande.jsp";
 
+	@EJB
 	private CustomerDao customerDao;
-	private OrderDao orderDao;
-
-	public void init() throws ServletException {
-		/* Récupération d'une instance de notre DAO Utilisateur */
-		DAOFactory factory = (DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY);
-		this.customerDao = factory.getCustomerDao();
-		this.orderDao = factory.getOrderDao();
-	}
+	@EJB
+	private OrderHeaderDao orderDao;
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		/* Affichage de la page d'inscription */
@@ -46,7 +43,7 @@ public class CreationCommande extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		CreationCommandeForm form = new CreationCommandeForm(orderDao, customerDao);
 
-		Order order = form.createOrder(request);
+		OrderHeader order = form.createOrder(request);
 
 		request.setAttribute(ATT_ORDER, order);
 		request.setAttribute(ATT_FORM, form);
@@ -54,9 +51,9 @@ public class CreationCommande extends HttpServlet {
 		if (form.getErreurs().isEmpty()) {
 			HttpSession session = request.getSession();
 
-			Map<Long, Order> orderList = (Map<Long, Order>) session.getAttribute(ATT_SESSION_ORDERS);
+			Map<Long, OrderHeader> orderList = (Map<Long, OrderHeader>) session.getAttribute(ATT_SESSION_ORDERS);
 			if (orderList == null)
-				orderList = new HashMap<Long, Order>();
+				orderList = new HashMap<Long, OrderHeader>();
 
 			Map<Long, Customer> customerList = (Map<Long, Customer>) session.getAttribute(ATT_SESSION_CUSTOMERS);
 			if (customerList == null)

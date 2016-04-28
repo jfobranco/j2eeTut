@@ -8,11 +8,11 @@ import javax.servlet.http.HttpSession;
 
 import org.joda.time.DateTime;
 
-import com.sdzee.tp.beans.Client;
-import com.sdzee.tp.beans.Commande;
 import com.sdzee.tp.dao.ClientDao;
 import com.sdzee.tp.dao.CommandeDao;
 import com.sdzee.tp.dao.DAOException;
+import com.sdzee.tp.entities.Client;
+import com.sdzee.tp.entities.Commande;
 
 public final class CreationCommandeForm {
 	private static final String CHAMP_CHOIX_CLIENT = "choixNouveauClient";

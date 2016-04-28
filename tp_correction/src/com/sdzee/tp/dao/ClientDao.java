@@ -2,14 +2,50 @@ package com.sdzee.tp.dao;
 
 import java.util.List;
 
-import com.sdzee.tp.beans.Client;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
-public interface ClientDao {
-	void creer(Client client) throws DAOException;
+import com.sdzee.tp.entities.Client;
 
-	Client trouver(long id) throws DAOException;
+@Stateless
+public class ClientDao {
 
-	List<Client> lister() throws DAOException;
+	// Injection du manager, qui s'occupe de la connexion avec la BDD
+	@PersistenceContext(unitName = "tp_sdzee_PU")
+	private EntityManager em;
 
-	void supprimer(Client client) throws DAOException;
+	public Client trouver(long id) throws DAOException {
+		try {
+			return em.find(Client.class, id);
+		} catch (Exception e) {
+			throw new DAOException(e);
+		}
+	}
+
+	public void creer(Client client) throws DAOException {
+		try {
+			em.persist(client);
+		} catch (Exception e) {
+			throw new DAOException(e);
+		}
+	}
+
+	public List<Client> lister() throws DAOException {
+		try {
+			TypedQuery<Client> query = em.createQuery("SELECT c FROM Client c ORDER BY c.id", Client.class);
+			return query.getResultList();
+		} catch (Exception e) {
+			throw new DAOException(e);
+		}
+	}
+
+	public void supprimer(Client client) throws DAOException {
+		try {
+			em.remove(em.merge(client));
+		} catch (Exception e) {
+			throw new DAOException(e);
+		}
+	}
 }

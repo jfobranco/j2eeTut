@@ -4,21 +4,27 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.WebInitParam;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.sdzee.tp.beans.Client;
-import com.sdzee.tp.beans.Commande;
 import com.sdzee.tp.dao.ClientDao;
 import com.sdzee.tp.dao.CommandeDao;
-import com.sdzee.tp.dao.DAOFactory;
+import com.sdzee.tp.entities.Client;
+import com.sdzee.tp.entities.Commande;
 import com.sdzee.tp.forms.CreationCommandeForm;
 
+@WebServlet(urlPatterns = {
+		"/creationCommande" }, initParams = @WebInitParam(name = "chemin", value = "/fichiers/images/"))
+@MultipartConfig(location = "/tmp", maxFileSize = 2 * 1024 * 1024, maxRequestSize = 10 * 1024
+		* 1024, fileSizeThreshold = 1024 * 1024)
 public class CreationCommande extends HttpServlet {
-	public static final String CONF_DAO_FACTORY = "daofactory";
 	public static final String CHEMIN = "chemin";
 	public static final String ATT_COMMANDE = "commande";
 	public static final String ATT_FORM = "form";
@@ -30,14 +36,10 @@ public class CreationCommande extends HttpServlet {
 	public static final String VUE_SUCCES = "/WEB-INF/afficherCommande.jsp";
 	public static final String VUE_FORM = "/WEB-INF/creerCommande.jsp";
 
+	@EJB
 	private ClientDao clientDao;
+	@EJB
 	private CommandeDao commandeDao;
-
-	public void init() throws ServletException {
-		/* Récupération d'une instance de nos DAO Client et Commande */
-		this.clientDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getClientDao();
-		this.commandeDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getCommandeDao();
-	}
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		/* À la réception d'une requête GET, simple affichage du formulaire */

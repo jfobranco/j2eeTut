@@ -5,9 +5,9 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.jb.beans.Customer;
 import com.jb.dao.CustomerDao;
 import com.jb.dao.DAOException;
+import com.jb.entities.Customer;
 
 public class CreationClientForm {
 	public static final String PARAM_FIRSTNAME = "prenomClient";

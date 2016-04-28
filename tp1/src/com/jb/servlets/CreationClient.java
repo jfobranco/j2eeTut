@@ -4,17 +4,19 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.jb.beans.Customer;
 import com.jb.dao.CustomerDao;
-import com.jb.dao.DAOFactory;
+import com.jb.entities.Customer;
 import com.jb.forms.CreationClientForm;
 
+@WebServlet(urlPatterns = { "/creationClient" })
 public class CreationClient extends HttpServlet {
 
 	public static final String CONF_DAO_FACTORY = "daofactory";
@@ -25,12 +27,8 @@ public class CreationClient extends HttpServlet {
 	public static final String VIEW = "/WEB-INF/creationClient.jsp";
 	public static final String VIEW2 = "/WEB-INF/afficherClient.jsp";
 
+	@EJB
 	private CustomerDao customerDao;
-
-	public void init() throws ServletException {
-		/* Récupération d'une instance de notre DAO Utilisateur */
-		this.customerDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getCustomerDao();
-	}
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		/* Affichage de la page d'inscription */

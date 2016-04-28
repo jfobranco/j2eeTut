@@ -4,30 +4,27 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.sdzee.tp.beans.Commande;
 import com.sdzee.tp.dao.CommandeDao;
 import com.sdzee.tp.dao.DAOException;
-import com.sdzee.tp.dao.DAOFactory;
+import com.sdzee.tp.entities.Commande;
 
+@WebServlet(urlPatterns = { "/suppressionCommande" })
 public class SuppressionCommande extends HttpServlet {
-	public static final String CONF_DAO_FACTORY = "daofactory";
 	public static final String PARAM_ID_COMMANDE = "idCommande";
 	public static final String SESSION_COMMANDES = "commandes";
 
 	public static final String VUE = "/listeCommandes";
 
+	@EJB
 	private CommandeDao commandeDao;
-
-	public void init() throws ServletException {
-		/* Récupération d'une instance de notre DAO Utilisateur */
-		this.commandeDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getCommandeDao();
-	}
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		/* Récupération du paramètre */

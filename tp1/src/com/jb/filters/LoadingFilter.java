@@ -3,37 +3,37 @@ package com.jb.filters;
 import java.io.IOException;
 import java.util.Map;
 
+import javax.ejb.EJB;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.jb.beans.Customer;
-import com.jb.beans.Order;
 import com.jb.dao.CustomerDao;
-import com.jb.dao.DAOFactory;
-import com.jb.dao.OrderDao;
+import com.jb.dao.OrderHeaderDao;
+import com.jb.entities.Customer;
+import com.jb.entities.OrderHeader;
 
+@WebFilter(urlPatterns = "/*")
 public class LoadingFilter implements Filter {
 
 	public static final String CONF_DAO_FACTORY = "daofactory";
 	public static final String ATT_SESSION_ORDERS = "orderlist";
 	public static final String ATT_SESSION_CUSTOMERS = "customerlist";
 
+	@EJB
 	private CustomerDao customerDao;
-	private OrderDao orderDao;
+	@EJB
+	private OrderHeaderDao orderDao;
 
-	public void init(FilterConfig config) throws ServletException {
-		DAOFactory factory = (DAOFactory) config.getServletContext().getAttribute(CONF_DAO_FACTORY);
-		if (factory != null) {
-			this.customerDao = factory.getCustomerDao();
-			this.orderDao = factory.getOrderDao();
-		}
+	@Override
+	public void init(FilterConfig filterConfig) throws ServletException {
 	}
 
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
@@ -51,7 +51,7 @@ public class LoadingFilter implements Filter {
 			session.setAttribute(ATT_SESSION_CUSTOMERS, customerList);
 		}
 
-		Map<Long, Order> orderList = (Map<Long, Order>) session.getAttribute(ATT_SESSION_ORDERS);
+		Map<Long, OrderHeader> orderList = (Map<Long, OrderHeader>) session.getAttribute(ATT_SESSION_ORDERS);
 		if (orderList == null) {
 			orderList = orderDao.list();
 			session.setAttribute(ATT_SESSION_ORDERS, orderList);
@@ -62,4 +62,5 @@ public class LoadingFilter implements Filter {
 
 	public void destroy() {
 	}
+
 }

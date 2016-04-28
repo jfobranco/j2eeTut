@@ -5,33 +5,33 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.ejb.EJB;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.sdzee.tp.beans.Client;
-import com.sdzee.tp.beans.Commande;
 import com.sdzee.tp.dao.ClientDao;
 import com.sdzee.tp.dao.CommandeDao;
-import com.sdzee.tp.dao.DAOFactory;
+import com.sdzee.tp.entities.Client;
+import com.sdzee.tp.entities.Commande;
 
+@WebFilter(urlPatterns = { "/*" })
 public class PrechargementFilter implements Filter {
-	public static final String CONF_DAO_FACTORY = "daofactory";
 	public static final String ATT_SESSION_CLIENTS = "clients";
 	public static final String ATT_SESSION_COMMANDES = "commandes";
 
+	@EJB
 	private ClientDao clientDao;
+	@EJB
 	private CommandeDao commandeDao;
 
-	public void init(FilterConfig config) throws ServletException {
-		/* Récupération d'une instance de nos DAO Client et Commande */
-		this.clientDao = ((DAOFactory) config.getServletContext().getAttribute(CONF_DAO_FACTORY)).getClientDao();
-		this.commandeDao = ((DAOFactory) config.getServletContext().getAttribute(CONF_DAO_FACTORY)).getCommandeDao();
+	public void init(FilterConfig filterConfig) throws ServletException {
 	}
 
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)

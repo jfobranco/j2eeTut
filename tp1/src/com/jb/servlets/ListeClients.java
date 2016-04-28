@@ -3,16 +3,18 @@ package com.jb.servlets;
 import java.io.IOException;
 import java.util.Map;
 
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.jb.beans.Customer;
 import com.jb.dao.CustomerDao;
-import com.jb.dao.DAOFactory;
+import com.jb.entities.Customer;
 
+@WebServlet(urlPatterns = { "/listeClients" })
 public class ListeClients extends HttpServlet {
 
 	public static final String CONF_DAO_FACTORY = "daofactory";
@@ -21,12 +23,8 @@ public class ListeClients extends HttpServlet {
 
 	public static final String VIEW = "/WEB-INF/listerClients.jsp";
 
+	@EJB
 	private CustomerDao customerDao;
-
-	public void init() throws ServletException {
-		/* Récupération d'une instance de notre DAO Utilisateur */
-		this.customerDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getCustomerDao();
-	}
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		this.getServletContext().getRequestDispatcher(VIEW).forward(request, response);
@@ -45,10 +43,9 @@ public class ListeClients extends HttpServlet {
 		Long customer = Long.decode(customerStr);
 		if (customerList != null && customer != null && customerList.containsKey(customer)) {
 			Customer c = customerList.get(customer);
-			Long id = c.getId();
+			customerDao.delete(c);
 			customerList.remove(customer);
 			session.setAttribute(ATT_SESSION_CUSTOMERS, customerList);
-			customerDao.delete(id);
 		}
 
 		this.getServletContext().getRequestDispatcher(VIEW).forward(request, response);

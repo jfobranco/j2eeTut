@@ -3,16 +3,18 @@ package com.jb.servlets;
 import java.io.IOException;
 import java.util.Map;
 
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.jb.beans.Order;
-import com.jb.dao.DAOFactory;
-import com.jb.dao.OrderDao;
+import com.jb.dao.OrderHeaderDao;
+import com.jb.entities.OrderHeader;
 
+@WebServlet(urlPatterns = { "/listeCommandes" })
 public class ListeCommandes extends HttpServlet {
 
 	public static final String CONF_DAO_FACTORY = "daofactory";
@@ -22,13 +24,8 @@ public class ListeCommandes extends HttpServlet {
 
 	public static final String VIEW = "/WEB-INF/listerCommandes.jsp";
 
-	private OrderDao orderDao;
-
-	public void init() throws ServletException {
-		/* Récupération d'une instance de notre DAO Utilisateur */
-		DAOFactory factory = (DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY);
-		this.orderDao = factory.getOrderDao();
-	}
+	@EJB
+	private OrderHeaderDao orderDao;
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		this.getServletContext().getRequestDispatcher(VIEW).forward(request, response);
@@ -45,11 +42,12 @@ public class ListeCommandes extends HttpServlet {
 			Long order = Long.decode(orderStr);
 
 			HttpSession session = request.getSession();
-			Map<Long, Order> orderList = (Map<Long, Order>) session.getAttribute(ATT_SESSION_ORDERS);
+			Map<Long, OrderHeader> orderList = (Map<Long, OrderHeader>) session.getAttribute(ATT_SESSION_ORDERS);
 			if (orderList != null && order != null && orderList.containsKey(order)) {
+				OrderHeader o = orderList.get(order);
+				orderDao.delete(o);
 				orderList.remove(order);
 				session.setAttribute(ATT_SESSION_ORDERS, orderList);
-				orderDao.delete(order);
 			}
 		}
 

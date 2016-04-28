@@ -7,10 +7,10 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.jb.beans.Customer;
-import com.jb.beans.Order;
 import com.jb.dao.CustomerDao;
-import com.jb.dao.OrderDao;
+import com.jb.dao.OrderHeaderDao;
+import com.jb.entities.Customer;
+import com.jb.entities.OrderHeader;
 
 public class CreationCommandeForm {
 
@@ -28,10 +28,10 @@ public class CreationCommandeForm {
 
 	private String resultat;
 	private Map<String, String> erreurs = new HashMap<String, String>();
-	private OrderDao orderDao;
+	private OrderHeaderDao orderDao;
 	private CustomerDao customerDao;
 
-	public CreationCommandeForm(OrderDao orderDao, CustomerDao customerDao) {
+	public CreationCommandeForm(OrderHeaderDao orderDao, CustomerDao customerDao) {
 		this.orderDao = orderDao;
 		this.customerDao = customerDao;
 	}
@@ -44,7 +44,7 @@ public class CreationCommandeForm {
 		return erreurs;
 	}
 
-	public Order createOrder(HttpServletRequest request) {
+	public OrderHeader createOrder(HttpServletRequest request) {
 
 		Customer customer = null;
 		String choixNouveauClient = getValeurChamp(request, PARAM_NEWCLIENT);
@@ -65,7 +65,7 @@ public class CreationCommandeForm {
 		String deliveryMode = getValeurChamp(request, PARAM_DELIVERYMODE);
 		String deliveryStatus = getValeurChamp(request, PARAM_DELIVERYSTATUS);
 
-		Order order = new Order();
+		OrderHeader order = new OrderHeader();
 		order.setCustomer(customer);
 		order.setDate(new Date());
 
