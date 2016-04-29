@@ -24,7 +24,7 @@ CREATE TABLE  j2eeTP.Customer (
 CREATE TABLE  j2eeTP.OrderHeader (
  id INT( 11 ) NOT NULL AUTO_INCREMENT,
  clientId INT( 11 ) NOT NULL,
- amount DECIMAL(11, 0)
+ amount DECIMAL(11, 0),
  date DATETIME NOT NULL,
  paymentMethod VARCHAR( 20 ) NOT NULL,
  paymentStatus VARCHAR( 20 ) NOT NULL,

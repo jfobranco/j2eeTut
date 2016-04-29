@@ -101,7 +101,7 @@
      <property name="user" value="java"/>
    
      <!-- Sets password to use for connections. -->
-     <property name="password" value="SdZ_eE"/>
+     <property name="password" value="$dZ_EE"/>
    
      <!-- Sets the idleConnectionTestPeriod.  This sets the time (in minutes), for a connection 
           to remain idle before sending a test query to the DB. This is 

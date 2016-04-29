@@ -1,5 +1,5 @@
 CREATE DATABASE tp_sdzee DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-GRANT ALL ON tp_sdzee.* TO 'java'@'localhost' IDENTIFIED BY 'SdZ_eE';
+GRANT ALL ON tp_sdzee.* TO 'java'@'localhost' IDENTIFIED BY '$dZ_EE';
 
 CREATE TABLE tp_sdzee.Client (
  id INT( 11 ) NOT NULL AUTO_INCREMENT ,
