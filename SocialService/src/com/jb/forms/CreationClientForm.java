@@ -5,7 +5,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.jb.dao.CustomerDao;
+import com.jb.dao.UserDao;
 import com.jb.dao.DAOException;
 import com.jb.entities.Customer;
 
@@ -18,9 +18,9 @@ public class CreationClientForm {
 
 	private String resultat;
 	private Map<String, String> erreurs = new HashMap<String, String>();
-	private CustomerDao customerDao;
+	private UserDao customerDao;
 
-	public CreationClientForm(CustomerDao customerDao) {
+	public CreationClientForm(UserDao customerDao) {
 		this.customerDao = customerDao;
 	}
 

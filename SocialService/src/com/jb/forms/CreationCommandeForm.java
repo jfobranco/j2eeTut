@@ -7,8 +7,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.jb.dao.CustomerDao;
-import com.jb.dao.OrderHeaderDao;
+import com.jb.dao.UserDao;
+import com.jb.dao.ServiceDao;
 import com.jb.entities.Customer;
 import com.jb.entities.OrderHeader;
 
@@ -28,10 +28,10 @@ public class CreationCommandeForm {
 
 	private String resultat;
 	private Map<String, String> erreurs = new HashMap<String, String>();
-	private OrderHeaderDao orderDao;
-	private CustomerDao customerDao;
+	private ServiceDao orderDao;
+	private UserDao customerDao;
 
-	public CreationCommandeForm(OrderHeaderDao orderDao, CustomerDao customerDao) {
+	public CreationCommandeForm(ServiceDao orderDao, UserDao customerDao) {
 		this.orderDao = orderDao;
 		this.customerDao = customerDao;
 	}
