@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class User {
@@ -20,6 +22,9 @@ public class User {
 	private String phone;
 	private String mail;
 	private Role role; // Attention on how to save this in database
+	@ManyToMany
+	@JoinColumn(name = "serviceId")
+	private Service services; // need to control how this works correctly
 
 	public String getFirstName() {
 		return firstName;

@@ -16,16 +16,16 @@ public abstract class Service {
 	private Long id;
 	@ManyToOne
 	@JoinColumn(name = "ownerId")
-	private User user;
+	private User owner;
 	private Date creation;
 	private String address;
 
-	public User getUser() {
-		return user;
+	public User getOwner() {
+		return owner;
 	}
 
-	public void setCustomer(User user) {
-		this.user = user;
+	public void setOwner(User owner) {
+		this.owner = owner;
 	}
 
 	public Long getId() {
@@ -50,5 +50,13 @@ public abstract class Service {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+	public static Service createService(int type) {
+		Service result = null;
+		if (type == 1)
+			result = new Restaurant();
+
+		return result;
 	}
 }

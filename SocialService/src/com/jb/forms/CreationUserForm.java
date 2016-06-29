@@ -5,11 +5,11 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.jb.dao.UserDao;
 import com.jb.dao.DAOException;
-import com.jb.entities.Customer;
+import com.jb.dao.UserDao;
+import com.jb.entities.User;
 
-public class CreationClientForm {
+public class CreationUserForm {
 	public static final String PARAM_FIRSTNAME = "prenomClient";
 	public static final String PARAM_NAME = "nomClient";
 	public static final String PARAM_ADDRESS = "adresseClient";
@@ -18,10 +18,10 @@ public class CreationClientForm {
 
 	private String resultat;
 	private Map<String, String> erreurs = new HashMap<String, String>();
-	private UserDao customerDao;
+	private UserDao userDao;
 
-	public CreationClientForm(UserDao customerDao) {
-		this.customerDao = customerDao;
+	public CreationUserForm(UserDao userDao) {
+		this.userDao = userDao;
 	}
 
 	public String getResultat() {
@@ -32,7 +32,7 @@ public class CreationClientForm {
 		return erreurs;
 	}
 
-	public Customer createCustomer(HttpServletRequest request) {
+	public User createUser(HttpServletRequest request) {
 		String firstName = getValeurChamp(request, PARAM_FIRSTNAME);
 		String lastName = getValeurChamp(request, PARAM_NAME);
 		String address = getValeurChamp(request, PARAM_ADDRESS);
@@ -40,24 +40,24 @@ public class CreationClientForm {
 		String mail = getValeurChamp(request, PARAM_MAIL);
 
 		/* Création du bean */
-		Customer customer = new Customer();
+		User user = new User();
 
 		/* Initialisation de ses propriétés */
 		if (lastName == null)
 			erreurs.put(PARAM_NAME, "Merci de saisir un nom.");
 		else if (lastName.length() < 2)
 			erreurs.put(PARAM_NAME, "Le nom doit contenir au moins 3 caractères.");
-		customer.setLastName(lastName);
+		user.setLastName(lastName);
 
 		if (firstName != null && firstName.length() < 2)
 			erreurs.put(PARAM_FIRSTNAME, "Le nom doit contenir au moins 3 caractères.");
-		customer.setFirstName(firstName);
+		user.setFirstName(firstName);
 
 		if (address == null)
 			erreurs.put(PARAM_ADDRESS, "Merci de saisir une addresse.");
 		else if (address.length() < 10)
 			erreurs.put(PARAM_ADDRESS, "L'addresse doit contenir au moins 10 caractères.");
-		customer.setAddress(address);
+		user.setAddress(address);
 
 		if (phone == null)
 			erreurs.put(PARAM_PHONE, "Merci de saisir un téléphone.");
@@ -72,16 +72,16 @@ public class CreationClientForm {
 				erreurs.put(PARAM_PHONE, "Le telephone doit être un chiffre.");
 			}
 		}
-		customer.setPhone(phone);
+		user.setPhone(phone);
 
 		if (mail != null && !mail.matches("([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)"))
 			erreurs.put(PARAM_MAIL, "Merci de saisir une adresse mail valide.");
-		customer.setMail(mail);
+		user.setMail(mail);
 
 		if (erreurs.isEmpty()) {
 			resultat = "Succès de la création du client.";
 			try {
-				customerDao.create(customer);
+				userDao.create(user);
 			} catch (DAOException e) {
 				resultat = "Échec de l'inscription : une erreur imprévue est survenue, merci de réessayer dans quelques instants.";
 				e.printStackTrace();
@@ -89,7 +89,7 @@ public class CreationClientForm {
 		} else
 			resultat = "Échec de la création du client.";
 
-		return customer;
+		return user;
 	}
 
 	/*
