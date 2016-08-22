@@ -1,0 +1,43 @@
+Mapping Inheritance Structures
+
+http://agiledata.org/essays/mappingObjects.html
+
+for users we use one table with a flag
+for services we use one table for each concrete class
+
+How to automatically create schema?
+
+How to run configuration class when starting server?
+
+
+Create pool
+./asadmin create-jdbc-connection-pool --datasourceclassname com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource --restype javax.sql.ConnectionPoolDataSource --property "User=java:Password=aaAA55@@:URL=jdbc\:mysql\://localhost\:3306/SocialService" jdbc/SocialService
+
+Test connection
+./asadmin ping-connection-pool jdbc/SocialService
+
+Create datasource
+./asadmin create-jdbc-resource --connectionpoolid jdbc/SocialService jdbc/SocialServiceDS
+
+
+every user can have a page, we link the subscription to the page
+
+
+keep a list of feed on session or always reload?
+save user on session
+
+Separate customer table and user table?
+
+need to create big admin interface
+	delete users
+	delete services
+
+After login show page with feed
+don't save fields between user/service creation
+
+add filter so user can't see pages before login
+
+About persistence of inherited classes
+http://javabeat.net/eclipselink-jpa-abstract-entity-non-entity-classes/
+
+difference between # and $ in pages

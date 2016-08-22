@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"> 
+    <h:head>
+        <meta charset="utf-8" />
+        <title>New User</title>
+        <h:outputStylesheet library="default" name="css/form.css"  />
+    </h:head>
+    <h:body>
+      <h:form>
+         <fieldset>
+         	<legend>New User</legend>
+	     	<h:outputLabel for="mail">Email <span class="requis">*</span></h:outputLabel>
+	        <h:inputText id="mail" value="#{creationUserForm.user.mail}" required="true" size="20" maxlength="60" />
+	        <h:message id="mailMessage" for="mail" errorClass="erreur" />
+	        <br />
+
+			<h:outputLabel for="password">Confirmation du mot de passe <span class="requis">*</span></h:outputLabel>
+	        <h:inputSecret id="password" value="#{creationUserForm.user.password}" required="true" size="20" maxlength="20" />
+	        <h:message id="passwordMessage" for="password" errorClass="erreur" />
+	        <br />
+
+	        <h:outputLabel for="confirmation">Confirmation du mot de passe <span class="requis">*</span></h:outputLabel>
+	        <h:inputSecret id="confirmation" value="#{creationUserForm.user.password}" required="true" size="20" maxlength="20" />
+	        <h:message id="confirmationMessage" for="confirmation" errorClass="erreur" />
+	        <br />
+	
+	        <h:outputLabel for="firstName">First Name <span class="requis">*</span></h:outputLabel>
+	        <h:inputText id="firstName" value="#{creationUserForm.user.firstName}" required="true" size="20" maxlength="20" />
+	        <h:message id="firstNameMessage" for="firstName" errorClass="erreur" />
+	        <br />
+
+			<h:outputLabel for="lastName">Last Name <span class="requis">*</span></h:outputLabel>
+	        <h:inputText id="lastName" value="#{creationUserForm.user.lastName}" required="true" size="20" maxlength="20" />
+	        <h:message id="lastNameMessage" for="lastName" errorClass="erreur" />
+	        <br />
+
+			<h:outputLabel for="address">Address <span class="requis">*</span></h:outputLabel>
+	        <h:inputText id="address" value="#{creationUserForm.user.address}" required="true" size="20" maxlength="20" />
+	        <h:message id="addressMessage" for="address" errorClass="erreur" />
+	        <br />
+
+			<h:outputLabel for="phone">Phone <span class="requis">*</span></h:outputLabel>
+	        <h:inputText id="phone" value="#{creationUserForm.user.phone}" required="true" size="20" maxlength="20" />
+	        <h:message id="phoneMessage" for="phone" errorClass="erreur" />
+	        <br />
+
+	        <h:messages globalOnly="true" infoClass="info" />
+	
+	        <h:commandButton value="Create" action="#{creationUserForm.createUser}" styleClass="sansLabel" />
+	        <br />
+          </fieldset>
+        </h:form> 	
+    </h:body>
+</html>

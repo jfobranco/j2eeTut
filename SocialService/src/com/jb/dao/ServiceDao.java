@@ -17,10 +17,10 @@ public class ServiceDao {
 
 	private static final String SQL_SELECT = "SELECT s FROM Service s";
 
-	@PersistenceContext(unitName = "j2eetp_PU")
+	@PersistenceContext(unitName = "hibernate_PU")
 	private EntityManager em;
 
-	public Service findId(String id) throws DAOException {
+	public Service findId(Long id) throws DAOException {
 		Service service = em.find(Service.class, id);
 
 		return service;
@@ -34,8 +34,10 @@ public class ServiceDao {
 			for (Service service : services)
 				result.put(service.getId(), service);
 		} catch (NoResultException e) {
+			e.printStackTrace();
 			return null;
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new DAOException(e);
 		}
 
@@ -46,6 +48,7 @@ public class ServiceDao {
 		try {
 			em.persist(service);
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new DAOException(e);
 		}
 	}
@@ -54,6 +57,7 @@ public class ServiceDao {
 		try {
 			em.remove(service);
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new DAOException(e);
 		}
 	}

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+> 
+<h:head>
+    <meta charset="utf-8" />
+    <title>Services</title>
+    <h:outputStylesheet library="default" name="css/form.css"  />
+</h:head>
+<h:body>
+
+<c:if test="#{empty serviceList.services}">
+	<p class="info">No services</p>
+</c:if>
+<c:if test="#{!empty serviceList.services}">
+	<div>
+	<table>
+		<tr><th>Nom</th><th>Address</th><th>Phone</th><th>Mail</th></tr>
+		<c:forEach items="#{serviceList.services.entrySet()}" var="item">
+			<tr>
+				<td>#{item.value.name}</td>
+				<td>#{item.value.address}</td>
+				<td>#{item.value.phone}</td>
+				<td>#{item.value.mail}</td>
+				<td>
+					<h:link outcome="showService.xhtml">
+						<f:param value="#{item.value.id}" name="serviceId"/>
+						Go To
+					</h:link>
+				</td>
+			</tr>
+        </c:forEach>  
+	</table>
+	</div>
+</c:if>
+
+</h:body>
+</html>

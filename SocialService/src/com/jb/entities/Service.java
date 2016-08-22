@@ -10,21 +10,42 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
-public abstract class Service {
+// @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public class Service {
+	// Service types
+	public static int SERVICE_TYPE_RESTAURANT = 1;
+
+	// Service fields
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@ManyToOne
 	@JoinColumn(name = "ownerId")
-	private User owner;
+	private Customer owner;
+	private String name;
 	private Date creation;
 	private String address;
+	private String phone;
+	private String mail;
 
-	public User getOwner() {
+	public Service() {
+		creation = new Date();
+	}
+
+	public static Service createService(int type) {
+		Service result = null;
+		if (type == SERVICE_TYPE_RESTAURANT)
+			result = new Restaurant();
+		result.creation = new Date();
+
+		return result;
+	}
+
+	public Customer getOwner() {
 		return owner;
 	}
 
-	public void setOwner(User owner) {
+	public void setOwner(Customer owner) {
 		this.owner = owner;
 	}
 
@@ -52,11 +73,27 @@ public abstract class Service {
 		this.address = address;
 	}
 
-	public static Service createService(int type) {
-		Service result = null;
-		if (type == 1)
-			result = new Restaurant();
+	public String getName() {
+		return name;
+	}
 
-		return result;
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getMail() {
+		return mail;
+	}
+
+	public void setMail(String mail) {
+		this.mail = mail;
 	}
 }

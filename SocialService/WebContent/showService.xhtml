@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"> 
+    <h:head>
+        <meta charset="utf-8" />
+        <title>Service</title>
+        <h:outputStylesheet library="default" name="css/form.css"  />
+    </h:head>
+    <h:body>
+    	Logged user: #{creationServiceForm.currentCustomer.mail}
+      <h:form>
+         <fieldset>
+         	<legend>Service</legend>
+
+	     	<h:outputLabel for="name">Name</h:outputLabel>
+	        <h:inputText id="name" value="#{showService.service.name}" disabled ="#{showService.disabled}" required="true" size="20" maxlength="60" />
+	        <br />
+
+			<h:outputLabel for="address">Address</h:outputLabel>
+	        <h:inputText id="address" value="#{showService.service.address}" disabled ="#{showService.disabled}" required="true" size="20" maxlength="20" />
+	        <br />
+
+			<h:outputLabel for="mail">Mail</h:outputLabel>
+	        <h:inputText id="mail" value="#{showService.service.mail}" disabled ="#{showService.disabled}" required="true" size="20" maxlength="20" />
+	        <br />
+
+			<h:outputLabel for="phone">Phone</h:outputLabel>
+	        <h:inputText id="phone" value="#{showService.service.phone}" disabled ="#{showService.disabled}" required="true" size="20" maxlength="20" />
+	        <br />
+
+			<h:messages globalOnly="true" infoClass="info" />
+
+	        <h:commandButton value="Follow" action="#{showService.followService}" styleClass="sansLabel" />
+	        <br />
+          </fieldset>
+        </h:form> 	
+    </h:body>
+</html>

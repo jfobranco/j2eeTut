@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"> 
+    <h:head>
+        <meta charset="utf-8" />
+        <title>New Service</title>
+        <h:outputStylesheet library="default" name="css/form.css"  />
+    </h:head>
+    <h:body>
+    	Logged user: #{creationServiceForm.currentCustomer.mail}
+      <h:form>
+         <fieldset>
+         	<legend>Service</legend>
+	     	<h:outputLabel for="name">Name <span class="requis">*</span></h:outputLabel>
+	        <h:inputText id="name" value="#{creationServiceForm.service.name}" required="true" size="20" maxlength="60" />
+	        <h:message id="nameMessage" for="name" errorClass="erreur" />
+	        <br />
+
+			<h:outputLabel for="address">Address<span class="requis">*</span></h:outputLabel>
+	        <h:inputText id="address" value="#{creationServiceForm.service.address}" required="true" size="20" maxlength="20" />
+	        <h:message id="addressMessage" for="address" errorClass="erreur" />
+	        <br />
+
+			<h:outputLabel for="mail">Mail <span class="requis">*</span></h:outputLabel>
+	        <h:inputText id="mail" value="#{creationServiceForm.service.mail}" required="true" size="20" maxlength="20" />
+	        <h:message id="mailMessage" for="mail" errorClass="erreur" />
+	        <br />
+
+			<h:outputLabel for="phone">Phone <span class="requis">*</span></h:outputLabel>
+	        <h:inputText id="phone" value="#{creationServiceForm.service.phone}" required="true" size="20" maxlength="20" />
+	        <h:message id="phoneMessage" for="phone" errorClass="erreur" />
+	        <br />
+
+	        <h:messages globalOnly="true" infoClass="info" />
+	
+	        <h:commandButton value="Create" action="#{creationServiceForm.createService}" styleClass="sansLabel" />
+	        <br />
+          </fieldset>
+        </h:form> 	
+    </h:body>
+</html>
