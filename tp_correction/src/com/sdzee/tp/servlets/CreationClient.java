@@ -23,6 +23,10 @@ import com.sdzee.tp.forms.CreationClientForm;
 @MultipartConfig(location = "/tmp", maxFileSize = 2 * 1024 * 1024, maxRequestSize = 10 * 1024
 		* 1024, fileSizeThreshold = 1024 * 1024)
 public class CreationClient extends HttpServlet {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public static final String CHEMIN = "chemin";
 	public static final String ATT_CLIENT = "client";
 	public static final String ATT_FORM = "form";

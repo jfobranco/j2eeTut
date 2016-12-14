@@ -15,6 +15,10 @@ import com.sdzee.forms.InscriptionForm;
 
 @WebServlet("/inscription")
 public class Inscription extends HttpServlet {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public static final String CONF_DAO_FACTORY = "daofactory";
 	public static final String ATT_USER = "utilisateur";
 	public static final String ATT_FORM = "form";

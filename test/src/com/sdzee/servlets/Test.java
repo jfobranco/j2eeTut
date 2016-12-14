@@ -14,6 +14,10 @@ import org.joda.time.DateTime;
 import com.sdzee.beans.Coyote;
 
 public class Test extends HttpServlet {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public static final String ATT_MESSAGE = "test";
 	public static final String ATT_BEAN = "coyote";
 	public static final String ATT_LISTE = "liste";

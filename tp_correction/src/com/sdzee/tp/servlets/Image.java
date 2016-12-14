@@ -16,6 +16,10 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(urlPatterns = { "/images/*" }, initParams = @WebInitParam(name = "chemin", value = "/fichiers/images/"))
 public class Image extends HttpServlet {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public static final int TAILLE_TAMPON = 10240; // 10ko
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -1,6 +1,11 @@
 package com.jb.dao;
 
 public class DAOException extends RuntimeException {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	/*
 	 * Constructeurs
 	 */

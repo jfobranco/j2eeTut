@@ -18,6 +18,10 @@ import com.sdzee.tp.tools.JodaDateTimeConverter;
 
 @Entity
 public class Commande implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;

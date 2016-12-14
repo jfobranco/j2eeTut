@@ -10,6 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(urlPatterns = { "/listeClients" })
 public class ListeClients extends HttpServlet {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public static final String ATT_CLIENT = "client";
 	public static final String ATT_FORM = "form";
 

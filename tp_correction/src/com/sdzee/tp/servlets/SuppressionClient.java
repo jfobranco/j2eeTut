@@ -18,6 +18,10 @@ import com.sdzee.tp.entities.Client;
 
 @WebServlet(urlPatterns = { "/suppressionClient" })
 public class SuppressionClient extends HttpServlet {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public static final String PARAM_ID_CLIENT = "idClient";
 	public static final String SESSION_CLIENTS = "clients";
 

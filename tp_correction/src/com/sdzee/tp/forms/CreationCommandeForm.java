@@ -17,7 +17,7 @@ import com.sdzee.tp.entities.Commande;
 public final class CreationCommandeForm {
 	private static final String CHAMP_CHOIX_CLIENT = "choixNouveauClient";
 	private static final String CHAMP_LISTE_CLIENTS = "listeClients";
-	private static final String CHAMP_DATE = "dateCommande";
+	// private static final String CHAMP_DATE = "dateCommande";
 	private static final String CHAMP_MONTANT = "montantCommande";
 	private static final String CHAMP_MODE_PAIEMENT = "modePaiementCommande";
 	private static final String CHAMP_STATUT_PAIEMENT = "statutPaiementCommande";
@@ -26,7 +26,7 @@ public final class CreationCommandeForm {
 
 	private static final String ANCIEN_CLIENT = "ancienClient";
 	private static final String SESSION_CLIENTS = "clients";
-	private static final String FORMAT_DATE = "dd/MM/yyyy HH:mm:ss";
+	// private static final String FORMAT_DATE = "dd/MM/yyyy HH:mm:ss";
 
 	private String resultat;
 	private Map<String, String> erreurs = new HashMap<String, String>();

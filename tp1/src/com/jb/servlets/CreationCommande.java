@@ -21,6 +21,10 @@ import com.jb.forms.CreationCommandeForm;
 @WebServlet(urlPatterns = { "/creationCommande" })
 public class CreationCommande extends HttpServlet {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public static final String CONF_DAO_FACTORY = "daofactory";
 	public static final String ATT_FORM = "form";
 	public static final String ATT_ORDER = "order";

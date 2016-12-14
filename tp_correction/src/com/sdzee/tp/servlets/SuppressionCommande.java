@@ -18,6 +18,10 @@ import com.sdzee.tp.entities.Commande;
 
 @WebServlet(urlPatterns = { "/suppressionCommande" })
 public class SuppressionCommande extends HttpServlet {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public static final String PARAM_ID_COMMANDE = "idCommande";
 	public static final String SESSION_COMMANDES = "commandes";
 

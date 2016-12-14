@@ -19,6 +19,10 @@ import com.jb.forms.CreationClientForm;
 @WebServlet(urlPatterns = { "/creationClient" })
 public class CreationClient extends HttpServlet {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public static final String CONF_DAO_FACTORY = "daofactory";
 	public static final String ATT_CUSTOMER = "customer";
 	public static final String ATT_FORM = "form";
