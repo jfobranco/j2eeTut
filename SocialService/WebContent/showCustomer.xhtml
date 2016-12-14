@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <meta charset="utf-8" />
+        <title>Customer</title>
+        <h:outputStylesheet library="default" name="css/form.css"  />
+        <f:metadata>
+		    <f:viewParam name="customerId" value="#{showCustomer.customerId}" converter="javax.faces.Long" />
+		</f:metadata>
+    </h:head>
+    <h:body>
+    	Logged user: #{sessionScope.user.mail}
+    	<br />
+      <h:form>
+         <fieldset>
+         	<legend>User</legend>
+
+			<h:outputLabel for="mail">Email <span class="requis">*</span></h:outputLabel>
+	        <h:inputText id="mail" value="#{showCustomer.customer.mail}" disabled ="#{showCustomer.disabled}" required="true" size="20" maxlength="60" />
+	        <br />
+
+			<h:outputLabel for="firstName">First Name <span class="requis">*</span></h:outputLabel>
+	        <h:inputText id="firstName" value="#{showCustomer.customer.firstName}" disabled ="#{showCustomer.disabled}" required="true" size="20" maxlength="20" />
+	        <br />
+
+			<h:outputLabel for="lastName">Last Name <span class="requis">*</span></h:outputLabel>
+	        <h:inputText id="lastName" value="#{showCustomer.customer.lastName}" disabled ="#{showCustomer.disabled}" required="true" size="20" maxlength="20" />
+	        <br />
+
+			<h:outputLabel for="address">Address <span class="requis">*</span></h:outputLabel>
+	        <h:inputText id="address" value="#{showCustomer.customer.address}" disabled ="#{showCustomer.disabled}" required="true" size="20" maxlength="20" />
+	        <br />
+
+			<h:outputLabel for="phone">Phone <span class="requis">*</span></h:outputLabel>
+	        <h:inputText id="phone" value="#{showCustomer.customer.phone}" disabled ="#{showCustomer.disabled}" required="true" size="20" maxlength="20" />
+	        <br />
+          </fieldset>
+          List with posts
+        </h:form> 	
+    </h:body>
+</html>

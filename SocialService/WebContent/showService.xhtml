@@ -1,12 +1,18 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">  
     <h:head>
         <meta charset="utf-8" />
         <title>Service</title>
         <h:outputStylesheet library="default" name="css/form.css"  />
+        <f:metadata>
+		    <f:viewParam name="serviceId" value="#{showService.serviceId}" converter="javax.faces.Long" />
+		</f:metadata>
     </h:head>
     <h:body>
-    	Logged user: #{creationServiceForm.currentCustomer.mail}
+    	Logged user: #{sessionScope.user.mail}
+    	<br />
       <h:form>
          <fieldset>
          	<legend>Service</legend>

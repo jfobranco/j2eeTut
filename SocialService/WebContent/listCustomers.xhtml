@@ -7,28 +7,29 @@
 > 
 <h:head>
     <meta charset="utf-8" />
-    <title>Services</title>
+    <title>Customers</title>
     <h:outputStylesheet library="default" name="css/form.css"  />
 </h:head>
 <h:body>
 Logged user: #{sessionScope.user.mail}
 <br />
-<c:if test="#{empty serviceList.services}">
-	<p class="info">No services</p>
+<c:if test="#{empty customerList.customers}">
+	<p class="info">No customers</p>
 </c:if>
-<c:if test="#{!empty serviceList.services}">
+<c:if test="#{!empty customerList.customers}">
 	<div>
 	<table>
-		<tr><th>Nom</th><th>Address</th><th>Phone</th><th>Mail</th></tr>
-		<c:forEach items="#{serviceList.services.entrySet()}" var="item">
+		<tr><th>First name</th><th>Last name</th><th>Address</th><th>Phone</th><th>Mail</th></tr>
+		<c:forEach items="#{customerList.customers.entrySet()}" var="item">
 			<tr>
-				<td>#{item.value.name}</td>
+				<td>#{item.value.firstName}</td>
+				<td>#{item.value.lastName}</td>
 				<td>#{item.value.address}</td>
 				<td>#{item.value.phone}</td>
 				<td>#{item.value.mail}</td>
 				<td>
-					<h:link outcome="showService.xhtml">
-						<f:param value="#{item.value.id}" name="serviceId"/>
+					<h:link outcome="showCustomer.xhtml">
+						<f:param value="#{item.value.id}" name="customerId"/>
 						Go To
 					</h:link>
 				</td>

@@ -36,8 +36,10 @@ public class CustomerDao {
 			for (Customer user : users)
 				result.put(user.getId(), user);
 		} catch (NoResultException e) {
+			e.printStackTrace();
 			return null;
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new DAOException(e);
 		}
 

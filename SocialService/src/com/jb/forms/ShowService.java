@@ -5,8 +5,7 @@ import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 
 import com.jb.Beans.SessionUtils;
@@ -16,14 +15,13 @@ import com.jb.entities.Customer;
 import com.jb.entities.Service;
 
 @ManagedBean
-@ViewScoped
+@RequestScoped
 public class ShowService implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	// private int serviceType = 1;
 	private Service service;
-	@ManagedProperty("#{param.serviceId}")
-	private String serviceId;
+	private Long serviceId;
 	private boolean disabled = true;
 	private Customer currentCustomer;
 	@EJB
@@ -36,11 +34,11 @@ public class ShowService implements Serializable {
 	}
 
 	public Long getServiceId() {
-		return Long.decode(serviceId);
+		return serviceId;
 	}
 
 	public void setServiceId(Long serviceId) {
-		this.serviceId = serviceId.toString();
+		this.serviceId = serviceId;
 	}
 
 	public void followService() {
@@ -53,7 +51,7 @@ public class ShowService implements Serializable {
 
 	public Service getService() {
 		if (service == null)
-			service = serviceDao.findId(Long.decode(serviceId));
+			service = serviceDao.findId(serviceId);
 		return service;
 	}
 

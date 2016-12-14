@@ -6,7 +6,8 @@
         <h:outputStylesheet library="default" name="css/form.css"  />
     </h:head>
     <h:body>
-    	Logged user: #{creationServiceForm.currentCustomer.mail}
+    	Logged user: #{sessionScope.user.mail}
+    	<br />
       <h:form>
          <fieldset>
          	<legend>Service</legend>

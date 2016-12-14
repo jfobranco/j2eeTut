@@ -41,3 +41,21 @@ About persistence of inherited classes
 http://javabeat.net/eclipselink-jpa-abstract-entity-non-entity-classes/
 
 difference between # and $ in pages
+
+user page has feed
+	feed is all posts from followed services organized by date
+service page has own posts
+
+
+
+
+Login example
+	http://www.journaldev.com/7252/jsf-authentication-login-logout-database-example
+J2EE tutorial
+	https://openclassrooms.com/courses/creez-votre-application-web-avec-java-ee/la-gestion-d-un-formulaire-avec-jsf
+Diagram
+	https://cacoo.com/diagrams/eBRj8BKIxTA4eqEC
+JSTL
+	http://adiguba.developpez.com/tutoriels/j2ee/jsp/jstl/
+Pass parameters
+	http://stackoverflow.com/questions/21146893/passing-parameters-between-two-jsf-pages-with-parameter-conversion
