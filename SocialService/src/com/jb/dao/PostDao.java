@@ -68,6 +68,7 @@ public class PostDao {
 	public void create(Post post) throws DAOException {
 		try {
 			em.persist(post);
+			em.merge(post.getService());
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new DAOException(e);

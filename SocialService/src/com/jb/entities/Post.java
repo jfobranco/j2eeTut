@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Post {
@@ -16,7 +17,8 @@ public class Post {
 	private String Title;
 	private String Text;
 	private Timestamp date;
-	@JoinColumn(name = "serviceId")
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "service", referencedColumnName = "id")
 	private Service service;
 
 	public Long getId() {

@@ -2,13 +2,13 @@ package com.jb.entities;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 
 @Entity
@@ -28,24 +28,35 @@ public class Customer {
 	private String password;
 	private Timestamp inscriptionDate;
 	// Services that the user follow
-	@ManyToMany
-	@JoinColumn(name = "serviceId")
-	private List<Service> services; // need to control how this works correctly
+	@ManyToMany(mappedBy = "customer")
+	private Collection<Service> service;
 
 	public Customer() {
-		services = new ArrayList<Service>();
+		service = new ArrayList<Service>();
 	}
 
-	public void addService(Service service) {
-		services.add(service);
+	@Override
+	public boolean equals(Object object) {
+		if (object instanceof Customer && ((Customer) object).getId() == this.id)
+			return true;
+		else
+			return false;
 	}
 
-	public List<Service> getServices() {
-		return services;
+	public boolean addService(Service service) {
+		if (this.service.contains(service))
+			return false;
+		this.service.add(service);
+
+		return true;
+	}
+
+	public Collection<Service> getServices() {
+		return service;
 	}
 
 	public void setServices(List<Service> services) {
-		this.services = services;
+		this.service = services;
 	}
 
 	public String getFirstName() {

@@ -1,5 +1,6 @@
 package com.jb.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,12 +13,15 @@ import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
 import com.jb.entities.Customer;
+import com.jb.entities.Post;
+import com.jb.entities.Service;
 
 @Stateless
 public class CustomerDao {
 
 	private static final String SQL_SELECT = "SELECT c FROM Customer c";
 	private static final String SQL_SELECT_GET = "SELECT c FROM Customer c WHERE c.mail=:m AND c.password=:p";
+	private static final String SQL_SELECT_FEED = "SELECT p FROM Post p JOIN FETCH p.service s JOIN FETCH s.customer c WHERE c.id=:i ORDER BY p.date desc";
 
 	@PersistenceContext(unitName = "hibernate_PU")
 	private EntityManager em;
@@ -26,6 +30,25 @@ public class CustomerDao {
 		Customer customer = em.find(Customer.class, id);
 
 		return customer;
+	}
+
+	public List<Post> feed(Long userId) throws DAOException {
+		List<Post> result = new ArrayList<Post>();
+		TypedQuery<Post> query = em.createQuery(SQL_SELECT_FEED, Post.class);
+		query.setParameter("i", userId);
+		try {
+			List<Post> posts = query.getResultList();
+			for (Post post : posts)
+				result.add(post);
+		} catch (NoResultException e) {
+			e.printStackTrace();
+			return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DAOException(e);
+		}
+
+		return result;
 	}
 
 	public Map<Long, Customer> list() throws DAOException {
@@ -55,6 +78,22 @@ public class CustomerDao {
 	}
 
 	public void save(Customer user) {
+		// em.persist(user);
+		em.merge(user);
+		// em.merge(user.getServices());
+		em.flush();
+		// try {
+		// em.(user);
+		// } catch (Exception e) {
+		// e.printStackTrace();
+		// }
+	}
+
+	public void save(Customer user, Service service) {
+		// em.persist(user);
+		em.merge(user);
+		em.merge(service);
+		em.flush();
 		// try {
 		// em.(user);
 		// } catch (Exception e) {

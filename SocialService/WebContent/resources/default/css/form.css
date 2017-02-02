@@ -4,6 +4,56 @@ body, p, legend, label, input {
     font: normal 8pt verdana, helvetica, sans-serif;
 }
 
+html,body {
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+	background: #ffe7e9;
+}
+
+/* Blocs -------------------------------------------------------------------------- */
+div#login {
+	border: 1px solid #ff474b;
+	padding: 10px;
+	width: 400px;
+	margin: 0 auto;
+	margin-top: 10px;
+}
+
+div#header{
+	position: relative;
+    top: 0;
+	padding: 10px;
+	background: #ff474b;
+	height: 30px;
+}
+
+div#right {
+	float:right;
+}
+
+div#left {
+	float:left;
+	font-size: 15pt;
+}
+
+div#main{
+	width: 800px;
+	margin: 0 auto;
+	background: #e1e6e8;
+	text-align: center;
+	height: 100%;
+}
+
+div#footer{
+	position: absolute;
+    bottom: 0;
+	padding: 10px;
+	margin: 10px;
+	width: 100%;
+}
+
+
 /* Forms --------------------------------------------------------------------------------------- */
 fieldset {
     padding: 10px;
@@ -29,34 +79,6 @@ form input {
 
 form input.sansLabel {
     margin-left: 200px;
-}
-
-/* Styles et couleurs -------------------------------------------------------------------------- */
-.requis {
-    color: #c00;
-}
-
-.erreur {
-    color: #900;
-}
-
-.succes {
-    color: #090;
-}
-
-.info {
-    font-style: italic;
-    color: #E8A22B;
-}
-
-/* Blocs constituants -------------------------------------------------------------------------- */
-div#menu{
-	border: 1px solid #0568CD;
-	padding: 10px;
-	margin: 10px;
-}
-div#corps{
-	margin: 10px;
 }
 
 
@@ -85,4 +107,24 @@ td{
 }
 td.action{
 	text-align: center;
+}
+
+
+
+/* Styles et couleurs -------------------------------------------------------------------------- */
+.requis {
+    color: #c00;
+}
+
+.erreur {
+    color: #900;
+}
+
+.succes {
+    color: #090;
+}
+
+.info {
+    font-style: italic;
+    color: #E8A22B;
 }

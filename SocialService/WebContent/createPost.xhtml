@@ -1,0 +1,47 @@
+<ui:composition template="/template.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <ui:define name="title">
+    	New Post
+    </ui:define>
+
+	<f:metadata>
+		<f:viewParam name="serviceId" value="#{creationPostForm.serviceId}" />
+	</f:metadata>
+
+    <ui:define name="content">
+        <h:form>
+         <fieldset>
+         	<legend>New Post</legend>
+
+         	<h:outputLabel for="service">Service <span class="requis">*</span></h:outputLabel>
+	        <h:inputText id="service" value="#{creationPostForm.post.service.name}" disabled="true" size="20" maxlength="60" />
+	        <h:message id="serviceMessage" for="service" errorClass="erreur" />
+	        <br />
+
+			<h:outputLabel for="date">Date <span class="requis">*</span></h:outputLabel>
+	        <h:inputText id="date" value="#{creationPostForm.post.date}" disabled="true" size="20" maxlength="60" />
+	        <h:message id="dateMessage" for="date" errorClass="erreur" />
+	        <br />
+
+	     	<h:outputLabel for="title">Title <span class="requis">*</span></h:outputLabel>
+	        <h:inputText id="title" value="#{creationPostForm.post.title}" required="true" size="20" maxlength="60" />
+	        <h:message id="titleMessage" for="title" errorClass="erreur" />
+	        <br />
+
+			<h:outputLabel for="text">Text <span class="requis">*</span></h:outputLabel>
+	        <h:inputTextarea id="text" value="#{creationPostForm.post.text}" required="true" size="60" maxlength="255" />
+	        <h:message id="textMessage" for="text" errorClass="erreur" />
+	        <br />
+
+	        <h:messages globalOnly="true" infoClass="info" />
+	
+	        <h:commandButton value="Create" action="#{creationPostForm.createPost}" styleClass="sansLabel" />
+	        <br />
+          </fieldset>
+        </h:form>
+    </ui:define>
+</ui:composition>

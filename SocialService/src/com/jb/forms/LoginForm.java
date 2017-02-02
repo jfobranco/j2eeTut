@@ -1,6 +1,8 @@
 package com.jb.forms;
 
+import java.io.IOException;
 import java.io.Serializable;
+import java.util.Collection;
 
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -12,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import com.jb.Beans.SessionUtils;
 import com.jb.dao.CustomerDao;
 import com.jb.entities.Customer;
+import com.jb.entities.Post;
 
 @ManagedBean
 @SessionScoped
@@ -21,10 +24,23 @@ public class LoginForm implements Serializable {
 	private String pwd;
 	private String msg;
 	private String user;
+	private Collection<Post> feed;
+
 	@EJB
 	private CustomerDao customerDao;
 
 	public LoginForm() {
+		feed = feed();
+	}
+
+	public Collection<Post> getFeed() {
+		feed();
+
+		return feed;
+	}
+
+	public void setFeed(Collection<Post> feed) {
+		this.feed = feed;
 	}
 
 	public String getPwd() {
@@ -61,12 +77,30 @@ public class LoginForm implements Serializable {
 			FacesMessage message = new FacesMessage("User logged in !");
 			FacesContext.getCurrentInstance().addMessage(null, message);
 
+			try {
+				FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
 			return "admin";
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
 					"Incorrect Username and Passowrd", "Please enter correct username and Password"));
 			return "login";
 		}
+	}
+
+	public Collection<Post> feed() {
+		HttpSession session = SessionUtils.getSession();
+		Customer user = session != null ? (Customer) session.getAttribute("user") : null;
+		Collection<Post> result = null;
+		if (user != null) {
+			result = customerDao.feed(user.getId());
+			feed = result;
+		}
+
+		return result;
 	}
 
 	// logout event, invalidate session

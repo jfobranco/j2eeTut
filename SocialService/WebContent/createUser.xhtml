@@ -1,12 +1,15 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"> 
-    <h:head>
-        <meta charset="utf-8" />
-        <title>New User</title>
-        <h:outputStylesheet library="default" name="css/form.css"  />
-    </h:head>
-    <h:body>
-      <h:form>
+<ui:composition template="/template.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <ui:define name="title">
+    	New User
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form>
          <fieldset>
          	<legend>New User</legend>
 	     	<h:outputLabel for="mail">Email <span class="requis">*</span></h:outputLabel>
@@ -49,6 +52,6 @@
 	        <h:commandButton value="Create" action="#{creationUserForm.createUser}" styleClass="sansLabel" />
 	        <br />
           </fieldset>
-        </h:form> 	
-    </h:body>
-</html>
+        </h:form>
+    </ui:define>
+</ui:composition>

@@ -30,6 +30,7 @@
 		    <property name="javax.persistence.schema-generation.scripts.create-target" value="sampleCreate.ddl"/>
 		    <property name="javax.persistence.schema-generation.scripts.drop-target" value="sampleDrop.ddl"/>
 		    <property name="javax.persistence.sql-load-script-source" value="file:/Users/jfobranco/git/j2eeTut/SocialService/WebContent/insert.sql"/> 
+		    <property name="eclipselink.logging.level" value="FINE" />
 		
 		<!--
         	<property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/SocialService"/>

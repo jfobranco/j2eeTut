@@ -1,16 +1,18 @@
 package com.jb.forms;
 
 import java.io.Serializable;
+import java.util.Collection;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.RequestScoped;
 
 import com.jb.dao.CustomerDao;
 import com.jb.entities.Customer;
+import com.jb.entities.Post;
 
 @ManagedBean
-@ViewScoped
+@RequestScoped
 public class ShowCustomer implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -18,10 +20,32 @@ public class ShowCustomer implements Serializable {
 	private Customer customer;
 	private Long customerId;
 	private boolean disabled = true;
+	private Collection<Post> feed;
+
 	@EJB
 	private CustomerDao customerDao;
 
 	public ShowCustomer() {
+	}
+
+	public Collection<Post> getFeed() {
+		feed();
+
+		return feed;
+	}
+
+	public void setFeed(Collection<Post> feed) {
+		this.feed = feed;
+	}
+
+	public Collection<Post> feed() {
+		Collection<Post> result = null;
+		if (customer != null) {
+			result = customerDao.feed(customer.getId());
+			feed = result;
+		}
+
+		return result;
 	}
 
 	public Long getCustomerId() {
@@ -30,11 +54,18 @@ public class ShowCustomer implements Serializable {
 
 	public void setCustomerId(Long customerId) {
 		this.customerId = customerId;
+		getCustomer();
+	}
+
+	public void load() {
+		if (customerId != null)
+			customer = customerDao.findId(customerId);
 	}
 
 	public Customer getCustomer() {
-		if (customer == null && customerId != null)
+		if (customerId != null && (customer == null || customer.getId() != customerId))
 			customer = customerDao.findId(customerId);
+
 		return customer;
 	}
 

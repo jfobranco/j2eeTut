@@ -1,13 +1,18 @@
 package com.jb.entities;
 
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 // @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
@@ -27,9 +32,46 @@ public class Service {
 	private String address;
 	private String phone;
 	private String mail;
+	// Services that the user follow
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "service")
+	private List<Post> posts;
+	@ManyToMany
+	private Collection<Customer> customer;
 
 	public Service() {
 		creation = new Date();
+	}
+
+	public Collection<Customer> getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Collection<Customer> customer) {
+		this.customer = customer;
+	}
+
+	public boolean addCustomer(Customer customer) {
+		if (this.customer.contains(customer))
+			return false;
+		this.customer.add(customer);
+
+		return true;
+	}
+
+	public List<Post> getPosts() {
+		return posts;
+	}
+
+	public void setPosts(List<Post> posts) {
+		this.posts = posts;
+	}
+
+	@Override
+	public boolean equals(Object object) {
+		if (object instanceof Service && ((Service) object).getId() == this.id)
+			return true;
+		else
+			return false;
 	}
 
 	public static Service createService(int type) {

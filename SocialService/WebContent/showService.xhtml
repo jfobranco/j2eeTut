@@ -1,43 +1,84 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core">  
-    <h:head>
-        <meta charset="utf-8" />
-        <title>Service</title>
-        <h:outputStylesheet library="default" name="css/form.css"  />
-        <f:metadata>
-		    <f:viewParam name="serviceId" value="#{showService.serviceId}" converter="javax.faces.Long" />
-		</f:metadata>
-    </h:head>
-    <h:body>
-    	Logged user: #{sessionScope.user.mail}
-    	<br />
-      <h:form>
-         <fieldset>
-         	<legend>Service</legend>
+<ui:composition template="/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
-	     	<h:outputLabel for="name">Name</h:outputLabel>
-	        <h:inputText id="name" value="#{showService.service.name}" disabled ="#{showService.disabled}" required="true" size="20" maxlength="60" />
-	        <br />
+	<ui:define name="title">
+    	Service
+    </ui:define>
 
-			<h:outputLabel for="address">Address</h:outputLabel>
-	        <h:inputText id="address" value="#{showService.service.address}" disabled ="#{showService.disabled}" required="true" size="20" maxlength="20" />
-	        <br />
+	<f:metadata>
+		<f:viewParam name="serviceId" value="#{showService.serviceId}" />
+	</f:metadata>
 
-			<h:outputLabel for="mail">Mail</h:outputLabel>
-	        <h:inputText id="mail" value="#{showService.service.mail}" disabled ="#{showService.disabled}" required="true" size="20" maxlength="20" />
-	        <br />
+	<ui:define name="content">
+		<h:form>
+			<fieldset>
+				<legend>Service</legend>
 
-			<h:outputLabel for="phone">Phone</h:outputLabel>
-	        <h:inputText id="phone" value="#{showService.service.phone}" disabled ="#{showService.disabled}" required="true" size="20" maxlength="20" />
-	        <br />
+				<h:outputLabel for="name">Name</h:outputLabel>
+				<h:inputText id="name" value="#{showService.service.name}"
+					disabled="#{showService.disabled}" required="true" size="20"
+					maxlength="60" />
+				<br />
 
-			<h:messages globalOnly="true" infoClass="info" />
+				<h:outputLabel for="address">Address</h:outputLabel>
+				<h:inputText id="address" value="#{showService.service.address}"
+					disabled="#{showService.disabled}" required="true" size="20"
+					maxlength="20" />
+				<br />
 
-	        <h:commandButton value="Follow" action="#{showService.followService}" styleClass="sansLabel" />
-	        <br />
-          </fieldset>
-        </h:form> 	
-    </h:body>
-</html>
+				<h:outputLabel for="mail">Mail</h:outputLabel>
+				<h:inputText id="mail" value="#{showService.service.mail}"
+					disabled="#{showService.disabled}" required="true" size="20"
+					maxlength="20" />
+				<br />
+
+				<h:outputLabel for="phone">Phone</h:outputLabel>
+				<h:inputText id="phone" value="#{showService.service.phone}"
+					disabled="#{showService.disabled}" required="true" size="20"
+					maxlength="20" />
+				<br />
+
+				<h:messages globalOnly="true" infoClass="info" />
+
+				<h:commandButton value="Follow"
+					action="#{showService.followService}" styleClass="sansLabel" disabled="#{sessionScope.user == null or (sessionScope.user != null and sessionScope.user.services.contains(showService.service))}"
+				/>
+				<br />
+				<h:link outcome="createPost.xhtml">
+					<f:param value="#{showService.service.id}" name="serviceId"/>
+					Add Post
+				</h:link>
+				<br />
+				<br />
+				<h1>Posts</h1>
+				<c:if test="#{empty showService.service.posts}">
+					<p class="info">No Posts</p>
+				</c:if>
+				<c:if test="#{!empty showService.service.posts}">
+					<div>
+						<table>
+							<tr><th>Date</th><th>Title</th><th>Text</th><th>Service</th></tr>
+							<c:forEach items="#{showService.service.posts}" var="item">
+								<tr>
+									<td>#{item.date}</td>
+									<td>#{item.title}</td>
+									<td>#{item.text}</td>
+									<td>
+										<h:link outcome="showPost.xhtml">
+											<f:param value="#{item.id}" name="postId"/>
+											Go To
+										</h:link>
+									</td>
+								</tr>
+							</c:forEach>  
+						</table>
+					</div>
+				</c:if>
+			</fieldset>
+		</h:form>
+	</ui:define>
+</ui:composition>

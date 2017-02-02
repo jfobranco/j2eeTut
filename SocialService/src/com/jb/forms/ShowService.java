@@ -15,6 +15,7 @@ import com.jb.entities.Customer;
 import com.jb.entities.Service;
 
 @ManagedBean
+// @ViewScoped
 @RequestScoped
 public class ShowService implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -39,19 +40,32 @@ public class ShowService implements Serializable {
 
 	public void setServiceId(Long serviceId) {
 		this.serviceId = serviceId;
+		getService();
 	}
 
 	public void followService() {
-		currentCustomer.addService(service);
-		// Is it automatically persisted when changes are made?
-		// userDao.save(currentCustomer);
-		FacesMessage message = new FacesMessage("Service followed!");
-		FacesContext.getCurrentInstance().addMessage(null, message);
+		String message = null;
+
+		if (currentCustomer == null)
+			message = "You must login";
+		else {
+			boolean result = currentCustomer.addService(service);
+			if (result) {
+				result = service.addCustomer(currentCustomer);
+				if (result)
+					userDao.save(currentCustomer, service);
+			}
+			message = result ? "Service followed!" : "Service already followed";
+		}
+
+		FacesMessage facesMessage = new FacesMessage(message);
+		FacesContext.getCurrentInstance().addMessage(null, facesMessage);
 	}
 
 	public Service getService() {
-		if (service == null)
+		if (serviceId != null && (service == null || service.getId() != serviceId))
 			service = serviceDao.findId(serviceId);
+
 		return service;
 	}
 
