@@ -1,0 +1,41 @@
+<ui:composition template="/template.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+	<ui:define name="extraheader">
+		<script src="//cloud.tinymce.com/stable/tinymce.min.js"></script>
+		<script>tinymce.init({ mode : "textareas" });</script>
+	</ui:define>
+
+	<f:metadata>
+		<f:viewParam name="serviceId" value="#{creationPageForm.serviceId}" />
+	</f:metadata>
+
+    <ui:define name="content">
+        <h:form>
+         <fieldset>
+         	<legend>New Page</legend>
+
+         	<h:outputLabel for="service">Service <span class="requis">*</span></h:outputLabel>
+	        <h:inputText id="service" value="#{creationPageForm.page.service.name}" disabled="true" size="20" maxlength="60" />
+	        <h:message id="serviceMessage" for="service" errorClass="erreur" />
+	        <br />
+
+			<h:outputLabel for="title">Title <span class="requis">*</span></h:outputLabel>
+	        <h:inputText id="title" value="#{creationPageForm.page.title}" required="true" size="20" maxlength="60" />
+	        <h:message id="titleMessage" for="title" errorClass="erreur" />
+	        <br />
+
+	     	Pages Text
+			<h:inputTextarea value="#{creationPageForm.page.content}">Easy! You should check out MoxieManager!</h:inputTextarea>
+
+	        <h:messages globalOnly="true" infoClass="info" />
+	
+	        <h:commandButton value="Create" action="#{creationPageForm.createPage}" styleClass="sansLabel" />
+	        <br />
+          </fieldset>
+        </h:form>
+    </ui:define>
+</ui:composition>

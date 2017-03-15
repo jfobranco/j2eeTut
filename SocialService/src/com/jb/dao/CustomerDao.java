@@ -112,6 +112,9 @@ public class CustomerDao {
 	}
 
 	public Customer validate(String user, String password) {
+		if (user == null || password == null)
+			return null;
+
 		Customer customer = null;
 		try {
 			TypedQuery<Customer> query = em.createQuery(SQL_SELECT_GET, Customer.class);

@@ -1,31 +1,38 @@
-<ui:composition template="/template.xhtml"
+<!DOCTYPE html>
+<html lang="en"
     xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
     xmlns:c="http://java.sun.com/jsp/jstl/core"
     xmlns:f="http://xmlns.jcp.org/jsf/core"
     xmlns:h="http://xmlns.jcp.org/jsf/html"
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-
-    <ui:define name="title">
-    	Customers
-    </ui:define>
-
-    <ui:define name="content">
-        <h:form>
-			<h3>Login</h3>
-			<h:outputLabel value="Username" />
-			<h:inputText id="username" value="#{loginForm.user}"></h:inputText>
-			<h:message id="usernameMessage" for="username" errorClass="erreur"></h:message>
-			<br /><br />
-			
-			<h:outputLabel value="Password" />
-			<h:inputSecret id="password" value="#{loginForm.pwd}"></h:inputSecret>
-			<h:message id="passwordMessage" for="password" errorClass="erreur"></h:message>
-			<br /><br />
-	
-			<h:messages globalOnly="true" infoClass="info" />
-	
-			<h:commandButton value="Login" action="#{loginForm.validateUsernamePassword}" />
-		</h:form>
-		<br />
-    </ui:define>
-</ui:composition>
+    <h:head>
+        <title>Social Service</title>
+        <h:outputStylesheet library="default" name="css/form.css"  />
+        <meta charset="utf-8" />
+    </h:head>
+    <h:body>
+    	<ui:include src="header.xhtml" />
+		<div id="login">
+			<h:form>
+				<h3>Login</h3>
+				<h:outputLabel value="Username" />
+				<h:inputText id="username" value="#{loginForm.user}" a:autofocus="true" />
+				<h:message id="usernameMessage" for="username" errorClass="erreur"/>
+				<br /><br />
+				
+				<h:outputLabel value="Password" />
+				<h:inputSecret id="password" value="#{loginForm.pwd}"/>
+				<h:message id="passwordMessage" for="password" errorClass="erreur"/>
+				<br /><br />
+		
+				<h:messages globalOnly="true" infoClass="info" />
+		
+				<h:commandButton value="Login" action="#{loginForm.validateUsernamePassword}" />
+			</h:form>
+			<br />
+			Not Registered yet? <h:link outcome="createUser" value="Register now!" />
+		</div>
+		<ui:include src="footer.xhtml" />
+	</h:body>
+</html>

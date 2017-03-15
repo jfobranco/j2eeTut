@@ -2,7 +2,6 @@ package com.jb.forms;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.sql.Timestamp;
 
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -10,26 +9,25 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 
-import com.jb.dao.PostDao;
+import com.jb.dao.PageDao;
 import com.jb.dao.ServiceDao;
-import com.jb.entities.Post;
+import com.jb.entities.Page;
 import com.jb.entities.Service;
 
 @ManagedBean
 @RequestScoped
-public class CreationPostForm implements Serializable {
+public class CreationPageForm implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private Post post;
+	private Page page;
 	@EJB
-	private PostDao postDao;
+	private PageDao pageDao;
 	@EJB
 	private ServiceDao serviceDao;
 	private Long serviceId;
 
-	public CreationPostForm() {
-		post = new Post();
-		post.setDate(new Timestamp(System.currentTimeMillis()));
+	public CreationPageForm() {
+		page = new Page();
 	}
 
 	public Long getServiceId() {
@@ -40,13 +38,13 @@ public class CreationPostForm implements Serializable {
 		this.serviceId = serviceId;
 		if (serviceId != null) {
 			Service service = serviceDao.findId(serviceId);
-			post.setService(service);
-			service.getPosts().add(post);
+			page.setService(service);
+			service.getPages().add(page);
 		}
 	}
 
-	public Post createPost() {
-		postDao.create(post);
+	public Page createPage() {
+		pageDao.create(page);
 		FacesMessage message = new FacesMessage("Succès de création !");
 		FacesContext.getCurrentInstance().addMessage(null, message);
 
@@ -56,10 +54,10 @@ public class CreationPostForm implements Serializable {
 			e.printStackTrace();
 		}
 
-		return post;
+		return page;
 	}
 
-	public Post getPost() {
-		return post;
+	public Page getPage() {
+		return page;
 	}
 }

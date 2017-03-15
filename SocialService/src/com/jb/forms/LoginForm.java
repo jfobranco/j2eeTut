@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import com.jb.Beans.SessionUtils;
 import com.jb.dao.CustomerDao;
+import com.jb.dao.PostDao;
 import com.jb.entities.Customer;
 import com.jb.entities.Post;
 
@@ -28,6 +29,8 @@ public class LoginForm implements Serializable {
 
 	@EJB
 	private CustomerDao customerDao;
+	@EJB
+	private PostDao postDao;
 
 	public LoginForm() {
 		feed = feed();
@@ -95,10 +98,12 @@ public class LoginForm implements Serializable {
 		HttpSession session = SessionUtils.getSession();
 		Customer user = session != null ? (Customer) session.getAttribute("user") : null;
 		Collection<Post> result = null;
-		if (user != null) {
+		if (user != null && customerDao != null)
 			result = customerDao.feed(user.getId());
-			feed = result;
-		}
+		else if (postDao != null)
+			result = postDao.feed();
+
+		feed = result;
 
 		return result;
 	}

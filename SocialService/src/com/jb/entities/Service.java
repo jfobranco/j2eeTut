@@ -35,11 +35,16 @@ public class Service {
 	// Services that the user follow
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "service")
 	private List<Post> posts;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "service")
+	private List<Page> pages;
 	@ManyToMany
 	private Collection<Customer> customer;
 
+	private Profile profile;
+
 	public Service() {
 		creation = new Date();
+		profile = new Profile();
 	}
 
 	public Collection<Customer> getCustomer() {
@@ -50,12 +55,22 @@ public class Service {
 		this.customer = customer;
 	}
 
-	public boolean addCustomer(Customer customer) {
-		if (this.customer.contains(customer))
+	public boolean handleCustomer(Customer customer) {
+		if (this.customer.contains(customer)) {
+			this.customer.remove(customer);
 			return false;
-		this.customer.add(customer);
+		} else {
+			this.customer.add(customer);
+			return true;
+		}
+	}
 
-		return true;
+	public List<Page> getPages() {
+		return pages;
+	}
+
+	public void setPages(List<Page> pages) {
+		this.pages = pages;
 	}
 
 	public List<Post> getPosts() {
@@ -137,5 +152,13 @@ public class Service {
 
 	public void setMail(String mail) {
 		this.mail = mail;
+	}
+
+	public Profile getProfile() {
+		return profile;
+	}
+
+	public void setProfile(Profile profile) {
+		this.profile = profile;
 	}
 }

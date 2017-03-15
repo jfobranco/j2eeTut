@@ -6,10 +6,13 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Customer {
@@ -30,9 +33,13 @@ public class Customer {
 	// Services that the user follow
 	@ManyToMany(mappedBy = "customer")
 	private Collection<Service> service;
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "profile")
+	private Profile profile;
 
 	public Customer() {
 		service = new ArrayList<Service>();
+		profile = new Profile();
 	}
 
 	@Override
@@ -43,12 +50,14 @@ public class Customer {
 			return false;
 	}
 
-	public boolean addService(Service service) {
-		if (this.service.contains(service))
+	public boolean handleService(Service service) {
+		if (this.service.contains(service)) {
+			this.service.remove(service);
 			return false;
-		this.service.add(service);
-
-		return true;
+		} else {
+			this.service.add(service);
+			return true;
+		}
 	}
 
 	public Collection<Service> getServices() {
@@ -121,5 +130,13 @@ public class Customer {
 
 	public void setInscriptionDate(Timestamp inscriptionDate) {
 		this.inscriptionDate = inscriptionDate;
+	}
+
+	public Profile getProfile() {
+		return profile;
+	}
+
+	public void setProfile(Profile profile) {
+		this.profile = profile;
 	}
 }

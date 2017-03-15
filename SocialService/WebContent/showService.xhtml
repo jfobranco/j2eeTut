@@ -5,80 +5,65 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
-	<ui:define name="title">
-    	Service
-    </ui:define>
-
 	<f:metadata>
 		<f:viewParam name="serviceId" value="#{showService.serviceId}" />
 	</f:metadata>
 
 	<ui:define name="content">
+		<c:if test="#{showService.service.profile.headerPic != null}">
+			<div id="#headerPic">
+				<img src="images/#{showService.service.profile.headerPic}" width="600" height="200"/>
+			</div>
+		</c:if>
+		<c:if test="#{showService.service.profile.headerPic == null}">
+			<div class=".placeholder" style="width: 600px; height: 200px; background: #fff;"></div>
+		</c:if>
+		<h1>#{showService.service.name}</h1>
+		#{showService.service.address}<br />
+		#{showService.service.mail}<br />
+		#{showService.service.phone}<br />
+		#{showService.service.owner.firstName}<br />
+		<br />
 		<h:form>
-			<fieldset>
-				<legend>Service</legend>
-
-				<h:outputLabel for="name">Name</h:outputLabel>
-				<h:inputText id="name" value="#{showService.service.name}"
-					disabled="#{showService.disabled}" required="true" size="20"
-					maxlength="60" />
-				<br />
-
-				<h:outputLabel for="address">Address</h:outputLabel>
-				<h:inputText id="address" value="#{showService.service.address}"
-					disabled="#{showService.disabled}" required="true" size="20"
-					maxlength="20" />
-				<br />
-
-				<h:outputLabel for="mail">Mail</h:outputLabel>
-				<h:inputText id="mail" value="#{showService.service.mail}"
-					disabled="#{showService.disabled}" required="true" size="20"
-					maxlength="20" />
-				<br />
-
-				<h:outputLabel for="phone">Phone</h:outputLabel>
-				<h:inputText id="phone" value="#{showService.service.phone}"
-					disabled="#{showService.disabled}" required="true" size="20"
-					maxlength="20" />
-				<br />
-
-				<h:messages globalOnly="true" infoClass="info" />
-
-				<h:commandButton value="Follow"
-					action="#{showService.followService}" styleClass="sansLabel" disabled="#{sessionScope.user == null or (sessionScope.user != null and sessionScope.user.services.contains(showService.service))}"
-				/>
-				<br />
-				<h:link outcome="createPost.xhtml">
+			<c:set var="follow" value="#{sessionScope.user != null and sessionScope.user.services.contains(showService.service) ? 'Unfollow' : 'Follow'}" scope="request" />
+			<c:if test="#{sessionScope.user != null}">
+				<h:commandButton value="#{follow}" action="#{showService.followService}" styleClass="button"/>
+			</c:if>
+			<c:if test="#{sessionScope.user != null and showService.service.owner.id == sessionScope.user.id}">
+				<h:link value="Add post" outcome="createPost.xhtml" styleClass="button">
 					<f:param value="#{showService.service.id}" name="serviceId"/>
-					Add Post
 				</h:link>
-				<br />
-				<br />
-				<h1>Posts</h1>
-				<c:if test="#{empty showService.service.posts}">
-					<p class="info">No Posts</p>
-				</c:if>
-				<c:if test="#{!empty showService.service.posts}">
-					<div>
-						<table>
-							<tr><th>Date</th><th>Title</th><th>Text</th><th>Service</th></tr>
-							<c:forEach items="#{showService.service.posts}" var="item">
-								<tr>
-									<td>#{item.date}</td>
-									<td>#{item.title}</td>
-									<td>#{item.text}</td>
-									<td>
-										<h:link outcome="showPost.xhtml">
-											<f:param value="#{item.id}" name="postId"/>
-											Go To
-										</h:link>
-									</td>
-								</tr>
-							</c:forEach>  
-						</table>
-					</div>
-				</c:if>
-			</fieldset>
+				<h:link value="Add page" outcome="createPage.xhtml" styleClass="button">
+					<f:param value="#{showService.service.id}" name="serviceId"/>
+				</h:link>
+			</c:if>
 		</h:form>
+		<h:messages globalOnly="true" infoClass="info" />
+		<br />
+		<br />
+		<h1>Pages</h1>
+		<c:if test="#{empty showService.service.pages}">
+			<p class="info">No pages</p>
+		</c:if>
+		<c:if test="#{!empty showService.service.pages}">
+			<div>
+				<table>
+					<tr><th>Title</th></tr>
+					<c:forEach items="#{showService.service.pages}" var="item">
+						<tr><td>#{item.title}</td>
+							<td>
+								<h:link outcome="showPage.xhtml">
+									<f:param value="#{item.id}" name="serviceId" />
+									Go To
+								</h:link>
+							</td>
+						</tr>
+					</c:forEach>
+				</table>
+			</div>
+		</c:if>
+		<ui:include src="posts.xhtml">
+			<ui:param name="posts" value="#{showService.service.posts}" />
+		</ui:include>
 	</ui:define>
 </ui:composition>

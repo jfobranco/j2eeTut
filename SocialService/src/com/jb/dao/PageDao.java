@@ -10,29 +10,29 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
-import com.jb.entities.Service;
+import com.jb.entities.Page;
 
 @Stateless
-public class ServiceDao {
+public class PageDao {
 
-	private static final String SQL_SELECT = "SELECT s FROM Service s";
+	private static final String SQL_SELECT = "SELECT p FROM Page p";
 
 	@PersistenceContext(unitName = "hibernate_PU")
 	private EntityManager em;
 
-	public Service findId(Long id) throws DAOException {
-		Service service = em.find(Service.class, id);
+	public Page findId(Long id) throws DAOException {
+		Page post = em.find(Page.class, id);
 
-		return service;
+		return post;
 	}
 
-	public Map<Long, Service> list() throws DAOException {
-		HashMap<Long, Service> result = new HashMap<Long, Service>();
-		TypedQuery<Service> query = em.createQuery(SQL_SELECT, Service.class);
+	public Map<Long, Page> list() throws DAOException {
+		HashMap<Long, Page> result = new HashMap<Long, Page>();
+		TypedQuery<Page> query = em.createQuery(SQL_SELECT, Page.class);
 		try {
-			List<Service> services = query.getResultList();
-			for (Service service : services)
-				result.put(service.getId(), service);
+			List<Page> pages = query.getResultList();
+			for (Page page : pages)
+				result.put(page.getId(), page);
 		} catch (NoResultException e) {
 			e.printStackTrace();
 			return null;
@@ -44,19 +44,19 @@ public class ServiceDao {
 		return result;
 	}
 
-	public void create(Service service) throws DAOException {
+	public void create(Page page) throws DAOException {
 		try {
-			// save image
-			em.persist(service);
+			em.persist(page);
+			em.merge(page.getService());
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new DAOException(e);
 		}
 	}
 
-	public void delete(Service service) throws DAOException {
+	public void delete(Page page) throws DAOException {
 		try {
-			em.remove(service);
+			em.remove(page);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new DAOException(e);

@@ -5,58 +5,14 @@
     xmlns:h="http://xmlns.jcp.org/jsf/html"
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
-    <ui:define name="title">
-        Home
-    </ui:define>
-
     <ui:define name="content">
-    	<c:if test="#{sessionScope.user == null}">
-    		<div id="login">
-		        <h:form>
-					<h3>Login</h3>
-					<h:outputLabel value="Username" />
-					<h:inputText id="username" value="#{loginForm.user}"></h:inputText>
-					<h:message id="usernameMessage" for="username" errorClass="erreur"></h:message>
-					<br /><br />
-					
-					<h:outputLabel value="Password" />
-					<h:inputSecret id="password" value="#{loginForm.pwd}"></h:inputSecret>
-					<h:message id="passwordMessage" for="password" errorClass="erreur"></h:message>
-					<br /><br />
-			
-					<h:messages globalOnly="true" infoClass="info" />
-			
-					<h:commandButton value="Login" action="#{loginForm.validateUsernamePassword}" />
-				</h:form>
-				<br />
-				Not Registered yet? <h:link outcome="showService.xhtml">Register now!</h:link><br />
-			</div>
+        <c:if test="#{empty loginForm.feed}">
+			<p class="info">No posts</p>
 		</c:if>
-		<c:if test="#{sessionScope.user != null}">
-	        <c:if test="#{empty loginForm.feed}">
-				<p class="info">No posts</p>
-			</c:if>
-			<c:if test="#{!empty loginForm.feed}">
-				<div>
-					<table>
-						<tr><th>Date</th><th>Title</th><th>Text</th><th>Service</th></tr>
-						<c:forEach items="#{loginForm.feed}" var="item">
-							<tr>
-								<td>#{item.date}</td>
-								<td>#{item.title}</td>
-								<td>#{item.text}</td>
-								<td>#{item.service.name}</td>
-								<td>
-									<h:link outcome="showPost.xhtml">
-										<f:param value="#{item.id}" name="postId"/>
-										Go To
-									</h:link>
-								</td>
-							</tr>
-						</c:forEach>  
-					</table>
-				</div>
-			</c:if>
+		<c:if test="#{!empty loginForm.feed}">
+			<ui:include src="posts.xhtml">
+				<ui:param name="posts" value="#{loginForm.feed}" />
+			</ui:include>
 		</c:if>
     </ui:define>
 </ui:composition>

@@ -6,31 +6,30 @@
     xmlns:h="http://xmlns.jcp.org/jsf/html"
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
-        <title><ui:insert name="title">Default title</ui:insert></title>
+        <title><ui:insert name="title">Social Service</ui:insert></title>
         <h:outputStylesheet library="default" name="css/form.css"  />
         <meta charset="utf-8" />
+        <ui:insert name="extraheader"></ui:insert>
     </h:head>
     <h:body>
+        <ui:include src="header.xhtml" />
     	<div id="main">
-        <div id="header">
-        	<div id="left">Social Service</div>
-        	<div id="right">#{sessionScope.user.mail}</div>
+	        <div id="menu">
+	        	<br />
+		        <!--<c:if test="#{sessionScope.user != null}"> -->
+		        	<h:form>
+		        		<h:link value="Home" outcome="/index.xhtml" /><br />
+						<h:link value="Login" outcome="/login.xhtml" /><br />
+						<h:link value="Create User" outcome="/createUser.xhtml" /><br />
+						<h:link value="Create Service" outcome="/createService.xhtml" /><br />
+						<h:link value="List services" outcome="/listServices.xhtml" /><br />
+						<h:link value="List customers" outcome="/listCustomers.xhtml" /><br />
+						<h:link value="List posts" outcome="/listPosts.xhtml" /><br />
+					</h:form>
+				 <!--</c:if>-->
+			</div>
+	        <div id="content"><ui:insert name="content">Default content</ui:insert></div>
         </div>
-        <div id="menu">
-	        <c:if test="#{sessionScope.user != null}">
-	        	<h:form>
-	        		<h:link value="Home" outcome="/index.xhtml" /><br />
-					<h:link value="Login" outcome="/login.xhtml" /><br />
-					<h:link value="Create User" outcome="/createUser.xhtml" /><br />
-					<h:link value="Create Service" outcome="/createService.xhtml" /><br />
-					<h:link value="List services" outcome="/listServices.xhtml" /><br />
-					<h:link value="List customers" outcome="/listCustomers.xhtml" /><br />
-					<h:link value="List posts" outcome="/listPosts.xhtml" /><br />
-				</h:form>
-			</c:if>
-		</div>
-        <div id="content"><ui:insert name="content">Default content</ui:insert></div>
-        <div id="footer">Footer</div>
-        </div>
+        <ui:include src="footer.xhtml" />
     </h:body>
 </html>

@@ -1,0 +1,113 @@
+<ui:composition template="/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+	<ui:define name="content">
+		<f:metadata>
+			<f:viewParam name="customerId" value="#{showCustomer.customerId}" />
+		</f:metadata>
+
+		<h:form>
+			<fieldset>
+				<legend>User</legend>
+
+				<h:outputLabel for="mail">Email <span class="requis">*</span>
+				</h:outputLabel>
+				<h:inputText id="mail" value="#{showCustomer.customer.mail}"
+					disabled="#{showCustomer.disabled}" required="true" size="20"
+					maxlength="60" />
+				<br />
+
+				<h:outputLabel for="firstName">First Name <span
+						class="requis">*</span>
+				</h:outputLabel>
+				<h:inputText id="firstName"
+					value="#{showCustomer.customer.firstName}"
+					disabled="#{showCustomer.disabled}" required="true" size="20"
+					maxlength="20" />
+				<br />
+
+				<h:outputLabel for="lastName">Last Name <span
+						class="requis">*</span>
+				</h:outputLabel>
+				<h:inputText id="lastName" value="#{showCustomer.customer.lastName}"
+					disabled="#{showCustomer.disabled}" required="true" size="20"
+					maxlength="20" />
+				<br />
+
+				<h:outputLabel for="address">Address <span
+						class="requis">*</span>
+				</h:outputLabel>
+				<h:inputText id="address" value="#{showCustomer.customer.address}"
+					disabled="#{showCustomer.disabled}" required="true" size="20"
+					maxlength="20" />
+				<br />
+
+				<h:outputLabel for="phone">Phone <span
+						class="requis">*</span>
+				</h:outputLabel>
+				<h:inputText id="phone" value="#{showCustomer.customer.phone}"
+					disabled="#{showCustomer.disabled}" required="true" size="20"
+					maxlength="20" />
+				<br />
+				<br />
+				<h1>Services</h1>
+				<c:if test="#{empty showCustomer.customer.services}">
+					<p class="info">No services</p>
+				</c:if>
+				<c:if test="#{!empty showCustomer.customer.services}">
+					<div>
+						<table>
+							<tr>
+								<th>Nom</th>
+								<th>Address</th>
+								<th>Phone</th>
+								<th>Mail</th>
+							</tr>
+							<c:forEach items="#{showCustomer.customer.services}" var="item">
+								<tr>
+									<td>#{item.name}</td>
+									<td>#{item.address}</td>
+									<td>#{item.phone}</td>
+									<td>#{item.mail}</td>
+									<td><h:link outcome="showService.xhtml">
+											<f:param value="#{item.id}" name="serviceId" />
+									Go To
+								</h:link></td>
+								</tr>
+							</c:forEach>
+						</table>
+					</div>
+				</c:if>
+				<h1>Posts</h1>
+				<c:if test="#{empty showCustomer.feed}">
+					<p class="info">No posts</p>
+				</c:if>
+				<c:if test="#{!empty showCustomer.feed}">
+					<div>
+					<table>
+						<tr><th>Date</th><th>Title</th><th>Text</th><th>Service</th></tr>
+						<c:forEach items="#{showCustomer.feed}" var="item">
+							<tr>
+								<td>#{item.date}</td>
+								<td>#{item.title}</td>
+								<td>#{item.text}</td>
+								<td>#{item.service.name}</td>
+								<td>
+									<h:link outcome="showPost.xhtml">
+										<f:param value="#{item.id}" name="postId"/>
+										Go To
+									</h:link>
+								</td>
+							</tr>
+						</c:forEach>  
+					</table>
+					</div>
+				</c:if>
+			</fieldset>
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -49,15 +49,11 @@ public class ShowService implements Serializable {
 		if (currentCustomer == null)
 			message = "You must login";
 		else {
-			boolean result = currentCustomer.addService(service);
-			if (result) {
-				result = service.addCustomer(currentCustomer);
-				if (result)
-					userDao.save(currentCustomer, service);
-			}
-			message = result ? "Service followed!" : "Service already followed";
+			boolean result = currentCustomer.handleService(service);
+			service.handleCustomer(currentCustomer);
+			userDao.save(currentCustomer, service);
+			message = result ? "Service followed!" : "Service unfollowed";
 		}
-
 		FacesMessage facesMessage = new FacesMessage(message);
 		FacesContext.getCurrentInstance().addMessage(null, facesMessage);
 	}

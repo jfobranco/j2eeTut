@@ -10,29 +10,29 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
-import com.jb.entities.Service;
+import com.jb.entities.Profile;
 
 @Stateless
-public class ServiceDao {
+public class ProfileDao {
 
-	private static final String SQL_SELECT = "SELECT s FROM Service s";
+	private static final String SQL_SELECT = "SELECT p FROM Profile p";
 
 	@PersistenceContext(unitName = "hibernate_PU")
 	private EntityManager em;
 
-	public Service findId(Long id) throws DAOException {
-		Service service = em.find(Service.class, id);
+	public Profile findId(Long id) throws DAOException {
+		Profile profile = em.find(Profile.class, id);
 
-		return service;
+		return profile;
 	}
 
-	public Map<Long, Service> list() throws DAOException {
-		HashMap<Long, Service> result = new HashMap<Long, Service>();
-		TypedQuery<Service> query = em.createQuery(SQL_SELECT, Service.class);
+	public Map<Long, Profile> list() throws DAOException {
+		HashMap<Long, Profile> result = new HashMap<Long, Profile>();
+		TypedQuery<Profile> query = em.createQuery(SQL_SELECT, Profile.class);
 		try {
-			List<Service> services = query.getResultList();
-			for (Service service : services)
-				result.put(service.getId(), service);
+			List<Profile> profiles = query.getResultList();
+			for (Profile profile : profiles)
+				result.put(profile.getId(), profile);
 		} catch (NoResultException e) {
 			e.printStackTrace();
 			return null;
@@ -44,19 +44,19 @@ public class ServiceDao {
 		return result;
 	}
 
-	public void create(Service service) throws DAOException {
+	public void create(Profile profile) throws DAOException {
 		try {
 			// save image
-			em.persist(service);
+			em.persist(profile);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new DAOException(e);
 		}
 	}
 
-	public void delete(Service service) throws DAOException {
+	public void delete(Profile profile) throws DAOException {
 		try {
-			em.remove(service);
+			em.remove(profile);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new DAOException(e);
