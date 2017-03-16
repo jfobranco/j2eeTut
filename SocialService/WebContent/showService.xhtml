@@ -42,12 +42,12 @@
 		<br />
 		<br />
 		<h1>Pages</h1>
-		<c:if test="#{empty showService.service.pages}">
-			<p class="info">No pages</p>
-		</c:if>
-		<c:if test="#{!empty showService.service.pages}">
-			<div>
-				<table>
+		<div id="#center">
+			<c:if test="#{empty showService.service.pages}">
+				<p class="info">No pages</p>
+			</c:if>
+			<c:if test="#{!empty showService.service.pages}">
+				<table class="center">
 					<tr><th>Title</th></tr>
 					<c:forEach items="#{showService.service.pages}" var="item">
 						<tr><td>#{item.title}</td>
@@ -60,8 +60,8 @@
 						</tr>
 					</c:forEach>
 				</table>
-			</div>
-		</c:if>
+			</c:if>
+		</div>
 		<ui:include src="posts.xhtml">
 			<ui:param name="posts" value="#{showService.service.posts}" />
 		</ui:include>

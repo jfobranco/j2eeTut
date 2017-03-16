@@ -97,6 +97,12 @@ div#left {
 	font-size: 15pt;
 }
 
+div#center {
+	text-align: center;
+	margin: 0 auto;
+	width: 100%;
+}
+
 div#post {
 	border: 1px solid #ff474b;
 	padding: 10px;
@@ -181,25 +187,36 @@ form input.sansLabel {
 table{
 	border-collapse: collapse;
 }
+
+table.center {
+    margin-left:auto; 
+    margin-right:auto;
+}
+
 tr.pair{
 	background-color: #efefef;
 }
+
 tr.impair{
 	background-color: #fff;	
 }
+
 th{
 	color: #ff474b;
 	border: 1px solid #ff474b;
 	padding: 5px;
 }
+
 th.action{
 	border: 1px solid #900;
 	color: #900;
 }
+
 td{
 	border: 1px solid #ff474b;
 	padding: 5px;
 }
+
 td.action{
 	text-align: center;
 }
