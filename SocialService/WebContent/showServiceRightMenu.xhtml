@@ -1,4 +1,4 @@
-<ui:composition template="/template.xhtml"
+<ui:composition
 	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
@@ -6,44 +6,6 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 
-	<f:metadata>
-		<f:viewParam name="serviceId" value="#{showService.serviceId}" />
-	</f:metadata>
-
-	<ui:define name="extraheader">
-		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXtZrHhTs8zCpMZveJoIHZpBBsMZM9P5Y"></script>
-    </ui:define>
-
-	<ui:define name="content">
-		<c:if test="#{showService.service.profile.headerPic != null}">
-			<div id="#headerPic">
-				<img src="images/#{showService.service.profile.headerPic}" width="600" height="200"/>
-			</div>
-		</c:if>
-		<c:if test="#{showService.service.profile.headerPic == null}">
-			<div class=".placeholder" style="width: 600px; height: 200px; background: #fff;"></div>
-		</c:if>
-		<h1>#{showService.service.name}</h1>
-		#{showService.service.address}<br />
-		#{showService.service.mail}<br />
-		#{showService.service.phone}<br />
-		#{showService.service.owner.firstName}<br />
-		<br />
-		<h:form>
-			<c:if test="#{sessionScope.user != null}">
-				<h:commandButton value="#{showService.followText}" action="#{showService.followService}" styleClass="button"/>
-			</c:if>
-		</h:form>
-		<h:messages globalOnly="true" infoClass="info" />
-		<br />
-		<c:if test="#{showService.service.coordinates != null}">
-			<p:gmap center="#{showService.service.coordinates}" zoom="13" type="HYBRID" model="#{showService.mapModel}" style="width:100%;height:400px" />
-			<br />
-		</c:if>
-		<ui:include src="posts.xhtml">
-			<ui:param name="posts" value="#{showService.service.posts}" />
-		</ui:include>
-	</ui:define>
 	<ui:define name="rightMenu">
 		<h1>Pages</h1>
 		<h:link value="Home" outcome="showService.xhtml">

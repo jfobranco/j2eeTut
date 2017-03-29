@@ -1,0 +1,42 @@
+<ui:composition template="/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+	<f:metadata>
+		<f:viewParam name="pageId" value="#{showPage.pageId}" />
+	</f:metadata>
+
+	<ui:define name="content">
+		<c:if test="#{showPage.page.service.profile.headerPic != null}">
+			<div id="#headerPic">
+				<img src="images/#{showPage.page.service.profile.headerPic}" width="600" height="200"/>
+			</div>
+		</c:if>
+		<c:if test="#{showPage.page.service.profile.headerPic == null}">
+			<div class=".placeholder" style="width: 600px; height: 200px; background: #fff;"></div>
+		</c:if>
+		<h1>#{showPage.page.title}</h1>	
+		<h:outputText value="#{showPage.page.content}" escape="false"/>
+	</ui:define>
+	<ui:define name="rightMenu">
+		<h1>Pages</h1>
+		<h:link value="Home" outcome="showService.xhtml">
+			<f:param value="#{showPage.page.service.id}" name="serviceId"/>
+		</h:link>
+		<br />
+		<c:if test="#{empty showPage.page.service.pages}">
+			<p class="info">No pages</p>
+		</c:if>
+		<c:if test="#{!empty showPage.page.service.pages}">
+			<c:forEach items="#{showPage.page.service.pages}" var="item">
+				<h:link value="#{item.title}" outcome="showServicePage.xhtml">
+					<f:param value="#{item.id}" name="pageId"/>
+				</h:link>
+				<br />
+			</c:forEach>
+		</c:if>
+	</ui:define>
+</ui:composition>

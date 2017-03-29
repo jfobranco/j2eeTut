@@ -15,6 +15,7 @@ import javax.transaction.Transactional;
 import com.jb.entities.Customer;
 import com.jb.entities.Post;
 import com.jb.entities.Service;
+import com.jb.entities.Session;
 
 @Stateless
 public class CustomerDao {
@@ -78,27 +79,21 @@ public class CustomerDao {
 	}
 
 	public void save(Customer user) {
-		// em.persist(user);
 		em.merge(user);
-		// em.merge(user.getServices());
 		em.flush();
-		// try {
-		// em.(user);
-		// } catch (Exception e) {
-		// e.printStackTrace();
-		// }
 	}
 
 	public void save(Customer user, Service service) {
-		// em.persist(user);
 		em.merge(user);
 		em.merge(service);
 		em.flush();
-		// try {
-		// em.(user);
-		// } catch (Exception e) {
-		// e.printStackTrace();
-		// }
+	}
+
+	public void save(Customer user, Service service, Session session) {
+		em.merge(user);
+		em.merge(service);
+		em.persist(session);
+		em.flush();
 	}
 
 	@Transactional

@@ -28,23 +28,44 @@ public class Service {
 	@JoinColumn(name = "ownerId")
 	private Customer owner;
 	private String name;
-	private Date creation;
+	private Date creation = new Date();
 	private String address;
+	private String coordinates;
 	private String phone;
 	private String mail;
+	// Session codes that can be used to create session, should be changed every x time (day, hour ?)
+	private List<String> sessionCodes;
 	// Services that the user follow
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "service")
 	private List<Post> posts;
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "service")
 	private List<Page> pages;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "service")
+	private List<Session> sessions;
 	@ManyToMany
 	private Collection<Customer> customer;
-
-	private Profile profile;
+	private Profile profile = new Profile();
 
 	public Service() {
-		creation = new Date();
-		profile = new Profile();
+	}
+
+	public boolean validateSession(String session) {
+		if (session == null || session == "")
+			return false;
+
+		return sessionCodes != null && sessionCodes.contains(session) ? true : false;
+	}
+
+	public void generateSessionCodes() {
+		// need last generation date? or do it with some cron?
+	}
+
+	public List<Session> getSessions() {
+		return sessions;
+	}
+
+	public void setSessions(List<Session> sessions) {
+		this.sessions = sessions;
 	}
 
 	public Collection<Customer> getCustomer() {
@@ -53,6 +74,14 @@ public class Service {
 
 	public void setCustomer(Collection<Customer> customer) {
 		this.customer = customer;
+	}
+
+	public List<String> getSessionCodes() {
+		return sessionCodes;
+	}
+
+	public void setSessionCodes(List<String> sessionCodes) {
+		this.sessionCodes = sessionCodes;
 	}
 
 	public boolean handleCustomer(Customer customer) {
@@ -104,6 +133,14 @@ public class Service {
 
 	public void setOwner(Customer owner) {
 		this.owner = owner;
+	}
+
+	public String getCoordinates() {
+		return coordinates;
+	}
+
+	public void setCoordinates(String coordinates) {
+		this.coordinates = coordinates;
 	}
 
 	public Long getId() {

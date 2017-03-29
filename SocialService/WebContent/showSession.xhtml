@@ -1,0 +1,36 @@
+<ui:composition template="/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+	<ui:define name="content">
+		<f:metadata>
+			<f:viewParam name="sessionId" value="#{showSession.sessionId}" />
+		</f:metadata>
+
+		<h:form>
+			<fieldset>
+				<legend>Session</legend>
+
+				<h:outputLabel for="date">Date <span class="requis">*</span></h:outputLabel>
+				<h:inputText id="date" value="#{showSession.post.date}" disabled="#{showSession.disabled}" required="true" size="20" maxlength="60" />
+				<br />
+
+				<h:outputLabel for="title">Title <span class="requis">*</span></h:outputLabel>
+		        <h:inputText id="title" value="#{showSession.post.title}" disabled="#{showSession.disabled}" required="true" size="20" maxlength="60" />
+		        <br />
+	
+				<h:outputLabel for="text">Text <span class="requis">*</span></h:outputLabel>
+		        <h:inputTextarea id="text" value="#{showSession.post.text}" disabled="#{showSession.disabled}" required="true" size="20" maxlength="255" />
+		        <br />
+
+				<h:outputLabel for="service">Service <span class="requis">*</span></h:outputLabel>
+		        <h:inputTextarea id="service" value="#{showSession.post.service.name}" disabled="#{showSession.disabled}" required="true" size="20" maxlength="255" />
+		        <br />
+			</fieldset>
+
+		</h:form>
+	</ui:define>
+</ui:composition>

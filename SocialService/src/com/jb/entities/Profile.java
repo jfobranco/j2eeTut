@@ -12,7 +12,6 @@ public class Profile {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String headerPic;
-	private String profilePic;
 
 	public Profile() {
 	}
@@ -31,13 +30,5 @@ public class Profile {
 
 	public void setHeaderPic(String headerPic) {
 		this.headerPic = headerPic;
-	}
-
-	public String getProfilePic() {
-		return profilePic;
-	}
-
-	public void setProfilePic(String profilePic) {
-		this.profilePic = profilePic;
 	}
 }

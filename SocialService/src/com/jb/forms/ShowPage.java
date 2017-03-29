@@ -29,7 +29,7 @@ public class ShowPage implements Serializable {
 
 	public void setPageId(Long pageId) {
 		this.pageId = pageId;
-		getPost();
+		getPage();
 	}
 
 	public void load() {
@@ -37,7 +37,7 @@ public class ShowPage implements Serializable {
 			page = pageDao.findId(pageId);
 	}
 
-	public Page getPost() {
+	public Page getPage() {
 		if (pageId != null && (page == null || page.getId() != pageId))
 			page = pageDao.findId(pageId);
 

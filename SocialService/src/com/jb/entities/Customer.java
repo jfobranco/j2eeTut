@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -12,14 +13,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
 public class Customer {
-	public enum Role {
-		User, Owner
-	}
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -33,6 +31,8 @@ public class Customer {
 	// Services that the user follow
 	@ManyToMany(mappedBy = "customer")
 	private Collection<Service> service;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
+	private List<Session> sessions;
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "profile")
 	private Profile profile;
@@ -58,6 +58,17 @@ public class Customer {
 			this.service.add(service);
 			return true;
 		}
+	}
+
+	public Session logSession(Service service) {
+		Session session = new Session();
+		session.setService(service);
+		session.setCustomer(this);
+
+		// sessions.add(session);
+		// service.getSessions().add(session);
+
+		return session;
 	}
 
 	public Collection<Service> getServices() {
