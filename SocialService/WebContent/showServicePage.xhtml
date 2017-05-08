@@ -18,25 +18,43 @@
 		<c:if test="#{showPage.page.service.profile.headerPic == null}">
 			<div class=".placeholder" style="width: 600px; height: 200px; background: #fff;"></div>
 		</c:if>
-		<h1>#{showPage.page.title}</h1>	
+		<h1>#{showPage.page.title}</h1>
 		<h:outputText value="#{showPage.page.content}" escape="false"/>
+		<h1>Items</h1>
+		<h:form>
+			<c:if test="#{sessionScope.user != null and showPage.page.service.owner.id == sessionScope.user.id}">
+				<h:inputText id="itemName" value="#{showPage.item.name}" required="true" size="20" maxlength="60" />
+				<h:inputText id="itemContent" value="#{showPage.item.content}" required="true" size="20" maxlength="60" />
+				<h:commandButton value="Add Item" action="#{showPage.addMenuItem}" styleClass="button"/>
+			</c:if>
+		</h:form>
+		<h:messages globalOnly="true" infoClass="info" />
+		<c:if test="#{!empty showPage.page.items}">
+			<table>
+				<tr><th>Name</th><th>Content</th></tr>
+				<c:forEach items="#{showPage.page.items}" var="item">
+					<tr>
+						<td>#{item.name}</td>
+						<td>#{item.content}</td>
+						<td>
+							<h:link outcome="showPageItem.xhtml">
+								<f:param value="#{item.id}" name="pageItemId"/>
+								Go To
+							</h:link>
+						</td>
+						<td>
+							<h:form>
+								<h:commandButton value="Order" action="#{showPage.orderItem(item)}" styleClass="buttonLink"/>
+							</h:form>
+						</td>
+					</tr>
+				</c:forEach>  
+			</table>
+		</c:if>
 	</ui:define>
 	<ui:define name="rightMenu">
-		<h1>Pages</h1>
-		<h:link value="Home" outcome="showService.xhtml">
-			<f:param value="#{showPage.page.service.id}" name="serviceId"/>
-		</h:link>
-		<br />
-		<c:if test="#{empty showPage.page.service.pages}">
-			<p class="info">No pages</p>
-		</c:if>
-		<c:if test="#{!empty showPage.page.service.pages}">
-			<c:forEach items="#{showPage.page.service.pages}" var="item">
-				<h:link value="#{item.title}" outcome="showServicePage.xhtml">
-					<f:param value="#{item.id}" name="pageId"/>
-				</h:link>
-				<br />
-			</c:forEach>
-		</c:if>
+		<ui:include src="showServiceRightMenu.xhtml">
+			<ui:param name="service" value="#{showPage.page.service}" />
+		</ui:include>
 	</ui:define>
 </ui:composition>

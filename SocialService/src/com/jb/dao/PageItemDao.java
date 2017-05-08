@@ -10,30 +10,29 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
-import com.jb.entities.Page;
 import com.jb.entities.PageItem;
 
 @Stateless
-public class PageDao {
+public class PageItemDao {
 
-	private static final String SQL_SELECT = "SELECT p FROM Page p";
+	private static final String SQL_SELECT = "SELECT p FROM PageItem p";
 
 	@PersistenceContext(unitName = "hibernate_PU")
 	private EntityManager em;
 
-	public Page findId(Long id) throws DAOException {
-		Page post = em.find(Page.class, id);
+	public PageItem findId(Long id) throws DAOException {
+		PageItem item = em.find(PageItem.class, id);
 
-		return post;
+		return item;
 	}
 
-	public Map<Long, Page> list() throws DAOException {
-		HashMap<Long, Page> result = new HashMap<Long, Page>();
-		TypedQuery<Page> query = em.createQuery(SQL_SELECT, Page.class);
+	public Map<Long, PageItem> list() throws DAOException {
+		HashMap<Long, PageItem> result = new HashMap<Long, PageItem>();
+		TypedQuery<PageItem> query = em.createQuery(SQL_SELECT, PageItem.class);
 		try {
-			List<Page> pages = query.getResultList();
-			for (Page page : pages)
-				result.put(page.getId(), page);
+			List<PageItem> items = query.getResultList();
+			for (PageItem item : items)
+				result.put(item.getId(), item);
 		} catch (NoResultException e) {
 			e.printStackTrace();
 			return null;
@@ -45,30 +44,24 @@ public class PageDao {
 		return result;
 	}
 
-	public void create(Page page) throws DAOException {
+	public void create(PageItem item) throws DAOException {
 		try {
-			em.persist(page);
-			em.merge(page.getService());
+			em.persist(item);
+			em.merge(item.getPage());
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new DAOException(e);
 		}
 	}
 
-	public void save(Page page) {
-		em.merge(page);
-		em.flush();
-	}
-
-	public void save(Page page, PageItem item) {
-		em.merge(page);
+	public void save(PageItem item) {
 		em.merge(item);
 		em.flush();
 	}
 
-	public void delete(Page page) throws DAOException {
+	public void delete(PageItem item) throws DAOException {
 		try {
-			em.remove(page);
+			em.remove(item);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new DAOException(e);

@@ -23,11 +23,11 @@ public class ShowSession implements Serializable {
 	public ShowSession() {
 	}
 
-	public Long getPageId() {
+	public Long getSessionId() {
 		return sessionId;
 	}
 
-	public void setPageId(Long sessionId) {
+	public void setSessionId(Long sessionId) {
 		this.sessionId = sessionId;
 		getSession();
 	}

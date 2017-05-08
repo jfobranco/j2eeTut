@@ -1,11 +1,15 @@
 package com.jb.entities;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Page {
@@ -21,6 +25,16 @@ public class Page {
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "service", referencedColumnName = "id")
 	private Service service;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "page")
+	private List<PageItem> items;
+
+	public List<PageItem> getItems() {
+		return items;
+	}
+
+	public void setItems(List<PageItem> items) {
+		this.items = items;
+	}
 
 	public Long getId() {
 		return id;

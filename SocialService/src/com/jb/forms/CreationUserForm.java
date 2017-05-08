@@ -1,7 +1,7 @@
 package com.jb.forms;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -26,7 +26,7 @@ public class CreationUserForm implements Serializable {
 	}
 
 	public Customer createUser() {
-		user.setInscriptionDate(new Timestamp(System.currentTimeMillis()));
+		user.setInscriptionDate(new Date());
 		userDao.create(user);
 		FacesMessage message = new FacesMessage("Succès de l'inscription !");
 		FacesContext.getCurrentInstance().addMessage(null, message);

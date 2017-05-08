@@ -2,7 +2,7 @@ package com.jb.forms;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -29,7 +29,7 @@ public class CreationPostForm implements Serializable {
 
 	public CreationPostForm() {
 		post = new Post();
-		post.setDate(new Timestamp(System.currentTimeMillis()));
+		post.setDate(new Date());
 	}
 
 	public Long getServiceId() {

@@ -18,26 +18,35 @@
 		<c:if test="#{showService.service.profile.headerPic == null}">
 			<div class=".placeholder" style="width: 600px; height: 200px; background: #fff;"></div>
 		</c:if>
-		Add list with sessions
-		<h1>#{showService.page.title}</h1>	
-		<h:outputText value="#{showService.page.content}" escape="false"/>
+		<c:if test="#{empty showService.service.sessions}">
+			<p class="info">No sessions</p>
+		</c:if>
+		<c:if test="#{!empty showService.service.sessions}">
+			<br />
+			<br />
+			<table>
+				<tr><th>Date</th><th>Code</th><th>Customer</th><th>Duration</th><th>Valid</th></tr>
+				<c:forEach items="#{showService.service.sessions}" var="item">
+					<tr>
+						<td>#{item.stamp}</td>
+						<td>#{item.code}</td>
+						<td>#{item.customer.firstName} #{item.customer.lastName}</td>
+						<td>#{item.duration}</td>
+						<td>#{item.valid}</td>
+						<td>
+							<h:link outcome="showSession.xhtml">
+								<f:param value="#{item.id}" name="sessionId"/>
+								Go To
+							</h:link>
+						</td>
+					</tr>
+				</c:forEach>  
+			</table>
+		</c:if>
 	</ui:define>
 	<ui:define name="rightMenu">
-		<h1>Pages</h1>
-		<h:link value="Home" outcome="showService.xhtml">
-			<f:param value="#{showService.service.id}" name="serviceId"/>
-		</h:link>
-		<br />
-		<c:if test="#{empty showService.service.pages}">
-			<p class="info">No pages</p>
-		</c:if>
-		<c:if test="#{!empty showService.service.pages}">
-			<c:forEach items="#{showService.service.pages}" var="item">
-				<h:link value="#{item.title}" outcome="showServicePage.xhtml">
-					<f:param value="#{item.id}" name="pageId"/>
-				</h:link>
-				<br />
-			</c:forEach>
-		</c:if>
+		<ui:include src="showServiceRightMenu.xhtml">
+			<ui:param name="service" value="#{showService.service}" />
+		</ui:include>
 	</ui:define>
 </ui:composition>

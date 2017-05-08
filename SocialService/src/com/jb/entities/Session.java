@@ -25,6 +25,7 @@ public class Session {
 	private String code;
 	private int duration;
 	private boolean valid;
+	private Purchase order;
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "service", referencedColumnName = "id")
 	private Service service;
@@ -90,6 +91,14 @@ public class Session {
 
 	public void setValid(boolean valid) {
 		this.valid = valid;
+	}
+
+	public Purchase getOrder() {
+		return order;
+	}
+
+	public void setOrder(Purchase order) {
+		this.order = order;
 	}
 
 }

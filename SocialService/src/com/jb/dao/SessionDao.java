@@ -10,6 +10,8 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import com.jb.entities.Purchase;
+import com.jb.entities.PurchaseItem;
 import com.jb.entities.Session;
 
 @Stateless
@@ -48,6 +50,17 @@ public class SessionDao {
 	public void create(Session session) throws DAOException {
 		try {
 			em.persist(session);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DAOException(e);
+		}
+	}
+
+	public void save(Session session, Purchase order, PurchaseItem item) throws DAOException {
+		try {
+			em.persist(order);
+			em.persist(item);
+			em.merge(session);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new DAOException(e);

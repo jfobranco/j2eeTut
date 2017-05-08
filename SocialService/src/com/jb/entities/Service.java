@@ -1,5 +1,6 @@
 package com.jb.entities;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -57,6 +58,9 @@ public class Service {
 	}
 
 	public void generateSessionCodes() {
+		if (sessionCodes == null)
+			sessionCodes = new ArrayList<String>();
+		sessionCodes.add("1234");
 		// need last generation date? or do it with some cron?
 	}
 

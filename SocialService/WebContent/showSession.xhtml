@@ -14,20 +14,28 @@
 			<fieldset>
 				<legend>Session</legend>
 
-				<h:outputLabel for="date">Date <span class="requis">*</span></h:outputLabel>
-				<h:inputText id="date" value="#{showSession.post.date}" disabled="#{showSession.disabled}" required="true" size="20" maxlength="60" />
+				<h:outputLabel for="date">Date</h:outputLabel>
+				<h:inputText id="date" value="#{showSession.session.stamp}" disabled="#{showSession.disabled}" required="true" size="20" maxlength="60" />
 				<br />
 
-				<h:outputLabel for="title">Title <span class="requis">*</span></h:outputLabel>
-		        <h:inputText id="title" value="#{showSession.post.title}" disabled="#{showSession.disabled}" required="true" size="20" maxlength="60" />
-		        <br />
-	
-				<h:outputLabel for="text">Text <span class="requis">*</span></h:outputLabel>
-		        <h:inputTextarea id="text" value="#{showSession.post.text}" disabled="#{showSession.disabled}" required="true" size="20" maxlength="255" />
+				<h:outputLabel for="code">Code</h:outputLabel>
+		        <h:inputText id="code" value="#{showSession.session.code}" disabled="#{showSession.disabled}" required="true" size="20" maxlength="60" />
 		        <br />
 
-				<h:outputLabel for="service">Service <span class="requis">*</span></h:outputLabel>
-		        <h:inputTextarea id="service" value="#{showSession.post.service.name}" disabled="#{showSession.disabled}" required="true" size="20" maxlength="255" />
+				<h:outputLabel for="duration">Duration</h:outputLabel>
+		        <h:inputText id="duration" value="#{showSession.session.duration}" disabled="#{showSession.disabled}" required="true" size="20" maxlength="60" />
+		        <br />
+	
+				<h:outputLabel for="customerFirstName">First Name</h:outputLabel>
+		        <h:inputText id="customerFirstName" value="#{showSession.session.customer.firstName}" disabled="true" required="true" size="20" maxlength="60" />
+		        <br />
+
+				<h:outputLabel for="customerLastName">Last Name</h:outputLabel>
+		        <h:inputText id="customerLastName" value="#{showSession.session.customer.lastName}" disabled="true" required="true" size="20" maxlength="60" />
+		        <br />
+
+				<h:outputLabel for="service">Service</h:outputLabel>
+		        <h:inputText id="service" value="#{showSession.session.service.name}" disabled="true" required="true" size="20" maxlength="60" />
 		        <br />
 			</fieldset>
 

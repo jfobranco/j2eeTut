@@ -44,6 +44,11 @@ public class ServiceDao {
 		return result;
 	}
 
+	public void save(Service service) {
+		em.merge(service);
+		em.flush();
+	}
+
 	public void create(Service service) throws DAOException {
 		try {
 			// save image

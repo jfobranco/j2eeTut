@@ -109,12 +109,26 @@ public class ShowService implements Serializable {
 			if (!service.validateSession(session))
 				message = "Invalid session";
 			else {
-				Session session = currentCustomer.logSession(service);
+				Session session = currentCustomer.logSession(service, this.session);
 				userDao.save(currentCustomer, service, session);
 				message = session != null ? "Session logged!" : "Problem logging session";
 			}
 		}
 		session = null;
+		FacesMessage facesMessage = new FacesMessage(message);
+		FacesContext.getCurrentInstance().addMessage(null, facesMessage);
+	}
+
+	public void generateCodes() {
+		String message = null;
+
+		if (currentCustomer == null)
+			message = "You must login";
+		else {
+			service.generateSessionCodes();
+			serviceDao.save(service);
+			message = "Codes generated";
+		}
 		FacesMessage facesMessage = new FacesMessage(message);
 		FacesContext.getCurrentInstance().addMessage(null, facesMessage);
 	}

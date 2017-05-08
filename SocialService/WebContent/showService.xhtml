@@ -33,6 +33,9 @@
 			<c:if test="#{sessionScope.user != null}">
 				<h:commandButton value="#{showService.followText}" action="#{showService.followService}" styleClass="button"/>
 			</c:if>
+			<c:if test="#{sessionScope.user != null and showService.service.owner.id == sessionScope.user.id}">
+				<h:commandButton value="Codes" action="#{showService.generateCodes}" styleClass="button"/>
+			</c:if>
 		</h:form>
 		<h:messages globalOnly="true" infoClass="info" />
 		<br />
@@ -45,39 +48,23 @@
 		</ui:include>
 	</ui:define>
 	<ui:define name="rightMenu">
-		<h1>Pages</h1>
-		<h:link value="Home" outcome="showService.xhtml">
-			<f:param value="#{showService.service.id}" name="serviceId"/>
-		</h:link>
-		<br />
-		<c:if test="#{empty showService.service.pages}">
-			<p class="info">No pages</p>
-		</c:if>
-		<c:if test="#{!empty showService.service.pages}">
-			<c:forEach items="#{showService.service.pages}" var="item">
-				<h:link value="#{item.title}" outcome="showServicePage.xhtml">
-					<f:param value="#{item.id}" name="pageId"/>
-				</h:link>
-				<br />
-			</c:forEach>
-		</c:if>
-		<c:if test="#{sessionScope.user != null and showService.service.owner.id == sessionScope.user.id}">
-			<h1>Admin</h1>
-			<h:form>
-				<h:link value="Add post" outcome="createPost.xhtml">
-					<f:param value="#{showService.service.id}" name="serviceId"/>
-				</h:link>
-				<br />
-				<h:link value="Add page" outcome="createPage.xhtml">
-					<f:param value="#{showService.service.id}" name="serviceId"/>
-				</h:link>
-			</h:form>
-		</c:if>
+		<ui:include src="showServiceRightMenu.xhtml">
+			<ui:param name="service" value="#{showService.service}" />
+		</ui:include>
 		<h:form>
 			<h1>Functions</h1>
 			<c:if test="#{showService.isFollow()}">
 				<h:inputText id="session" value="#{showService.session}" size="20" maxlength="60" /><br />
 				<h:commandButton value="Log session" action="#{showService.logSession}" styleClass="button"/>
+			</c:if>
+			<c:if test="#{showService.isFollow()}">
+				<h:link value="Order" outcome="showServiceOrder.xhtml">
+					<f:param value="#{showService.service.id}" name="serviceId"/>
+				</h:link>
+				<br />
+				<h:link value="Take away" outcome="showServiceTakeAway.xhtml">
+					<f:param value="#{showService.service.id}" name="serviceId"/>
+				</h:link>
 			</c:if>
 		</h:form>
 	</ui:define>

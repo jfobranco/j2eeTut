@@ -10,7 +10,7 @@ html,body {
 	margin: 0px;
 	padding: 0px;
 	background: #ffe7e9;
-	box-sizing: border-box;	// problem of scroll appearing when width 100% and padding
+	box-sizing: border-box;	/* problem of scroll appearing when width 100% and padding */
 }
 
 /* Blocs -------------------------------------------------------------------------- */
@@ -31,7 +31,7 @@ div#header{
 	background: #ff474b;
 	height: 50px;
 	width: 100%;
-	box-sizing: border-box;	// problem of scroll appearing when width 100% and padding
+	box-sizing: border-box;	/* problem of scroll appearing when width 100% and padding */
 }
 
 div#rightMenu {
@@ -62,7 +62,7 @@ div#content {
 	height: 100%;
 	margin: 0 auto;
 	margin-top: 50px;
-	box-sizing: border-box;	// problem of scroll appearing when width 100% and padding
+	box-sizing: border-box;	/* problem of scroll appearing when width 100% and padding */
 }
 
 div#main {
@@ -71,7 +71,7 @@ div#main {
 	height: 100%;
 	width: 970px;
 	float:left;
-	box-sizing: border-box;	// problem of scroll appearing when width 100% and padding
+	box-sizing: border-box;	/* problem of scroll appearing when width 100% and padding */
 }
 
 .placeholder {
@@ -99,7 +99,7 @@ div#footer {
 	width: 100%;
 	height: 30px;
 	background: #ff474b;
-	box-sizing: border-box;	// problem of scroll appearing when width 100% and padding
+	box-sizing: border-box;	/* problem of scroll appearing when width 100% and padding */
 }
 
 div#right {
@@ -140,6 +140,21 @@ div#post {
 }
 .button:hover {
 	background-color: #dc3d41;
+}
+
+.buttonLink {
+    color: black;
+    padding-top: 3px;
+	display: inline-block;
+	text-decoration: none;
+	background:none;
+	border:none;
+	padding:0;
+	cursor: pointer;
+}
+
+.buttonLink:hover {
+    color: red;
 }
 
 /* Links --------------------------------------------------------------------------------------- */

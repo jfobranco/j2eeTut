@@ -1,8 +1,8 @@
 package com.jb.entities;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -27,7 +27,7 @@ public class Customer {
 	private String phone;
 	private String mail;
 	private String password;
-	private Timestamp inscriptionDate;
+	private Date inscriptionDate;
 	// Services that the user follow
 	@ManyToMany(mappedBy = "customer")
 	private Collection<Service> service;
@@ -60,13 +60,13 @@ public class Customer {
 		}
 	}
 
-	public Session logSession(Service service) {
+	public Session logSession(Service service, String sessionCode) {
 		Session session = new Session();
 		session.setService(service);
 		session.setCustomer(this);
-
-		// sessions.add(session);
-		// service.getSessions().add(session);
+		session.setCode(sessionCode);
+		// session.setDuration(36E5);
+		session.setValid(true);
 
 		return session;
 	}
@@ -135,11 +135,11 @@ public class Customer {
 		this.password = password;
 	}
 
-	public Timestamp getInscriptionDate() {
+	public Date getInscriptionDate() {
 		return inscriptionDate;
 	}
 
-	public void setInscriptionDate(Timestamp inscriptionDate) {
+	public void setInscriptionDate(Date inscriptionDate) {
 		this.inscriptionDate = inscriptionDate;
 	}
 
